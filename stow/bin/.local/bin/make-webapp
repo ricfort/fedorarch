@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+NAME="$1" URL="$2" ICON_URL="$3" CLASS="${4:-$1}"
+mkdir -p ~/.local/share/applications ~/.local/share/icons/webapps
+curl -sL "$ICON_URL" -o "$HOME/.local/share/icons/webapps/${CLASS}.png" || true
+cat > ~/.local/share/applications/${CLASS}.desktop << EOF
+[Desktop Entry]
+Name=$NAME
+Exec=chromium --app=$URL --class=$CLASS
+Icon=$HOME/.local/share/icons/webapps/${CLASS}.png
+Type=Application
+Categories=Network;
+StartupWMClass=$CLASS
+EOF
+chmod +x ~/.local/share/applications/${CLASS}.desktop
+update-desktop-database ~/.local/share/applications/ 2>/dev/null || true
+echo "WebApp '$NAME' created!"

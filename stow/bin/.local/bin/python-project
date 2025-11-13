@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+PROJECT="${1:-$(basename $(pwd))}"
+mkdir -p "$PROJECT" && cd "$PROJECT"
+mise use python@latest && mise trust
+uv venv --python $(mise where python)
+source .venv/bin/activate
+uv pip install -r ~/.config/mise/default-python-packages.txt
+echo "Python project '$PROJECT' ready! Run: nvim ."

@@ -1,0 +1,7 @@
+{
+  "layer": "top",
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "battery", "tray"],
+  "clock": { "format": "{:%H:%M %a %b %d}" }
+}

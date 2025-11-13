@@ -1,0 +1,6 @@
+[tools]
+python = "3.12"
+nodejs = "22"
+
+[env]
+MISE_PYTHON_VENV_AUTO_CREATE = "1"

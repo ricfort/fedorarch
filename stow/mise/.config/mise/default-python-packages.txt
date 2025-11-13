@@ -1,0 +1,6 @@
+ruff
+black
+debugpy
+python-lsp-server
+fastapi
+uvicorn[standard]
