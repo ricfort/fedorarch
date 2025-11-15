@@ -12,11 +12,12 @@ y = 0
 [window]
 padding = { x = 8, y = 8 }
 decorations = "buttonless"
-opacity = 0.95
+opacity = 0.15
 
 [terminal]
-# Use bash with proper initialization
-shell = { program = "/bin/bash", args = ["--login"] }
+# Use zsh with proper initialization
+shell.program = "/bin/zsh"
+shell.args = ["-l"]
 
 [colors.primary]
 background = "#1a1612"

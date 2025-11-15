@@ -29,6 +29,8 @@ ESSENTIAL_PACKAGES=(
     "dunst"
     "thunar"
     "sddm"
+    "fastfetch"
+    "zsh"
 )
 
 # Clipboard and utilities

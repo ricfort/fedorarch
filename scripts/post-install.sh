@@ -3,6 +3,23 @@ set -euo pipefail
 
 echo "=== Post-installation setup ==="
 
+# Set zsh as default shell if zsh is installed and not already the default
+if command -v zsh >/dev/null 2>&1; then
+    CURRENT_SHELL=$(getent passwd "$USER" | cut -d: -f7)
+    ZSH_PATH=$(which zsh)
+    
+    if [ "$CURRENT_SHELL" != "$ZSH_PATH" ]; then
+        echo "Setting zsh as default shell..."
+        chsh -s "$ZSH_PATH" || {
+            echo "Warning: Could not change default shell. You may need to run: chsh -s $ZSH_PATH"
+        }
+    else
+        echo "zsh is already the default shell"
+    fi
+else
+    echo "zsh is not installed, skipping shell change"
+fi
+
 # Enable SDDM display manager
 if systemctl is-enabled sddm >/dev/null 2>&1; then
     echo "SDDM already enabled"
