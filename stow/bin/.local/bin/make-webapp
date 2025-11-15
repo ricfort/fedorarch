@@ -25,7 +25,7 @@ fi
 cat > ~/.local/share/applications/${CLASS}.desktop << EOF
 [Desktop Entry]
 Name=$NAME
-Exec=/usr/bin/chromium --app=$URL --class=$CLASS
+Exec=chromium --app=$URL --class=$CLASS
 Icon=$HOME/.local/share/icons/webapps/${CLASS}.png
 Type=Application
 Categories=Network;

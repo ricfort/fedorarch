@@ -1,27 +1,46 @@
-# Tofi configuration
-# Width and height in pixels (or use percentages if supported)
-width = 600
-height = 800
-prompt-text = "Search "
-# Use system default font that should always work
-font = "sans-serif"
-font-size = 16
-padding-top = 100
-padding-left = 100
-padding-right = 100
-padding-bottom = 100
-outline-width = 2
-border-width = 2
-result-spacing = 15
-num-results = 10
-# Ensure visibility - bright colors
-background-color = "#1e1e2e"
-outline-color = "#8aadf4"
-border-color = "#8aadf4"
-text-color = "#cdd6f4"
-prompt-color = "#8aadf4"
-selection-color = "#ffffff"
-selection-background = "#8aadf4"
-selection-padding = 5
-terminal = "alacritty"
+# Tofi Configuration - Japanese Paper Theme
+# Modern, fancy launcher with aged paper aesthetic
 
+# Window dimensions (percentage-based for responsiveness)
+width = 50%
+height = 50%
+
+# Positioning (centered)
+anchor = center
+
+# Font settings
+font = "JetBrainsMono Nerd Font"
+font-size = 15
+font-weight = normal
+
+# Padding and spacing
+padding-top = 60
+padding-left = 60
+padding-right = 60
+padding-bottom = 60
+result-spacing = 16
+
+# Appearance - Japanese Paper Theme (semi-transparent)
+# Using alpha channel: 1a1612 = base color, e6 = ~90% opacity (less transparent)
+background-color = "#1a1612e6"
+text-color = "#d4c4b0"
+prompt-text = "󰍉 "
+prompt-color = "#d4a574"
+selection-color = "#1a1612"
+selection-background = "#d4a574"
+selection-padding = 10
+
+# Borders and outlines
+border-width = 2
+outline-width = 2
+border-color = "#d4a574"
+outline-color = "#5c4a3a"
+
+# Results display
+num-results = 10
+
+# Behavior
+hide-cursor = false
+
+# Terminal for running commands
+terminal = "alacritty"

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Japanese Paper Theme",
+  "version": "1.0",
+  "description": "Japanese paper theme with aged paper aesthetic",
+  "theme": {
+    "colors": {
+      "frame": [26, 22, 18],
+      "frame_inactive": [26, 22, 18],
+      "background_tab": [26, 22, 18],
+      "toolbar": [26, 22, 18],
+      "toolbar_text": [212, 196, 176],
+      "toolbar_field": [26, 22, 18],
+      "toolbar_field_text": [212, 196, 176],
+      "tab_background_text": [212, 196, 176],
+      "tab_text": [212, 196, 176],
+      "bookmark_text": [212, 196, 176],
+      "toolbar_button_icon": [212, 165, 116],
+      "ntp_background": [26, 22, 18],
+      "ntp_text": [212, 196, 176],
+      "ntp_link": [212, 165, 116]
+    },
+    "tints": {
+      "buttons": [0, 0, 0],
+      "frame": [0, 0, 0]
+    }
+  }
+}

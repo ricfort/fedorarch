@@ -2,3 +2,4 @@
 - Don't reinstall things already installed
 - Do everything via scripts and do not install manually
 - Only create in the repo and then stow.
+- All of the content should be automatically installed when calling bootstrap.sh at the beginning of a setup.
