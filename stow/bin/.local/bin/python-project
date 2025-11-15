@@ -1,8 +1,40 @@
 #!/usr/bin/env bash
-PROJECT="${1:-$(basename $(pwd))}"
+set -euo pipefail
+
+PROJECT="${1:-$(basename "$(pwd)")}"
 mkdir -p "$PROJECT" && cd "$PROJECT"
+
+# Check if mise is available
+if ! command -v mise >/dev/null 2>&1; then
+    echo "Error: mise is not installed or not in PATH"
+    exit 1
+fi
+
+# Check if uv is available
+if ! command -v uv >/dev/null 2>&1; then
+    echo "Error: uv is not installed or not in PATH"
+    exit 1
+fi
+
+# Setup mise python
 mise use python@latest && mise trust
-uv venv --python $(mise where python)
-source .venv/bin/activate
-uv pip install -r ~/.config/mise/default-python-packages.txt
+
+# Get python path from mise
+PYTHON_PATH=$(mise where python)
+if [ -z "$PYTHON_PATH" ]; then
+    echo "Error: Could not find python path from mise"
+    exit 1
+fi
+
+# Create virtual environment
+uv venv --python "$PYTHON_PATH"
+
+# Activate and install packages if file exists
+if [ -f ~/.config/mise/default-python-packages.txt ]; then
+    source .venv/bin/activate
+    uv pip install -r ~/.config/mise/default-python-packages.txt
+else
+    echo "Warning: ~/.config/mise/default-python-packages.txt not found, skipping package installation"
+fi
+
 echo "Python project '$PROJECT' ready! Run: nvim ."

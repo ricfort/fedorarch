@@ -1,7 +1,77 @@
 {
   "layer": "top",
+  "position": "top",
+  "height": 36,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["pulseaudio", "battery", "tray"],
-  "clock": { "format": "{:%H:%M %a %b %d}" }
+  "modules-right": ["cpu", "memory", "temperature", "network", "pulseaudio", "battery", "tray"],
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{id}",
+    "format-icons": {
+      "urgent": "",
+      "focused": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    },
+    "persistent-only": true,
+    "sort-by": "number",
+    "format-window-separator": " "
+  },
+  "clock": {
+    "format": "{:%H:%M %a %b %d}",
+    "tooltip-format": "{:%A %B %d %Y}"
+  },
+  "cpu": {
+    "format": "󰻠 {usage}%",
+    "interval": 2,
+    "tooltip": false
+  },
+  "memory": {
+    "format": "󰍛 {percentage}%",
+    "interval": 2,
+    "tooltip-format": "Memory: {used:0.1f}G / {total:0.1f}G"
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": ["󰈸", "󰈸", "󰈸"],
+    "tooltip": false
+  },
+  "network": {
+    "format-wifi": "󰤨 {signalStrength}%",
+    "format-ethernet": "󰈀 Connected",
+    "format-linked": "󰈀 {ifname} (No IP)",
+    "format-disconnected": "󰤭 Disconnected",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip-format": "{essid} - {signalStrength}%"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 Muted",
+    "format-icons": {
+      "0": "󰕿",
+      "50": "󰖀",
+      "100": "󰕾"
+    },
+    "on-click": "pavucontrol"
+  },
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄 {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  }
 }

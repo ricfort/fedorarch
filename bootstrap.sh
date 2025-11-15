@@ -1,43 +1,121 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-echo "Fedora → Omarchy-Grade Rice Bootstrap (2025)"
-echo "Installing git, curl, stow..."
+echo "=========================================="
+echo "  Fedorarch - Omarchy-style Fedora Setup"
+echo "=========================================="
+echo ""
 
-sudo dnf update -y
-sudo dnf install -y git curl stow openssh-clients
+# Determine if we're running from a local repo or need to clone
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Git config
-read -p "Your git username: " name
-read -p "Your git email: " email
-git config --global user.name "$name"
-git config --global user.email "$email"
-git config --global init.defaultBranch main
-
-# SSH key
-if [ ! -f ~/.ssh/id_ed25519 ]; then
-    ssh-keygen -t ed25519 -C "$email" -f ~/.ssh/id_ed25519 -N ""
-    echo "Add to GitHub:"
-    cat ~/.ssh/id_ed25519.pub
-    read -p "Press Enter when done..."
+# Check for sudo access
+if ! sudo -n true 2>/dev/null; then
+    echo "This script requires sudo access."
+    echo "You may be prompted for your password."
+    echo ""
 fi
 
-# === CLONE fedorarch ===
-REPO_SSH="git@github.com:ricfort/fedorarch.git"
-REPO_HTTPS="https://github.com/ricfort/fedorarch.git"
+# Install minimal prerequisites if not already installed (needed before cloning)
+echo "=== Installing prerequisites ==="
+PREREQ_PACKAGES=("git" "curl" "stow" "dnf-plugins-core")
+PREREQ_TO_INSTALL=()
 
-echo "Cloning fedorarch..."
-cd ~
-if git clone "$REPO_SSH" fedorarch 2>/dev/null; then
-    echo "Cloned via SSH"
+for pkg in "${PREREQ_PACKAGES[@]}"; do
+    if ! rpm -q "$pkg" >/dev/null 2>&1; then
+        PREREQ_TO_INSTALL+=("$pkg")
+    fi
+done
+
+if [ ${#PREREQ_TO_INSTALL[@]} -gt 0 ]; then
+    echo "Installing prerequisites: ${PREREQ_TO_INSTALL[*]}"
+    sudo dnf install -y "${PREREQ_TO_INSTALL[@]}"
 else
-    echo "SSH failed. Trying HTTPS..."
-    git clone "$REPO_HTTPS" fedorarch
+    echo "All prerequisites already installed"
 fi
 
-cd fedorarch
-chmod +x install.sh
+# Check if we're in a git repo with stow directory
+if [ ! -d "$SCRIPT_DIR/.git" ] && [ ! -d "$SCRIPT_DIR/stow" ]; then
+    # Running via curl | bash - need to clone the repo
+    echo ""
+    echo "=== Cloning fedorarch repository ==="
+    TARGET="$HOME/fedorarch"
+    
+    if [ -d "$TARGET" ]; then
+        echo "Repository already exists at $TARGET"
+        echo "Removing old repository..."
+        rm -rf "$TARGET"
+    fi
+    
+    # Try SSH first, fall back to HTTPS
+    if git clone "git@github.com:ricfort/fedorarch.git" "$TARGET" 2>/dev/null || \
+       git clone "https://github.com/ricfort/fedorarch.git" "$TARGET"; then
+        SCRIPT_DIR="$TARGET"
+        cd "$SCRIPT_DIR"
+    else
+        echo "Error: Failed to clone repository"
+        exit 1
+    fi
+else
+    cd "$SCRIPT_DIR"
+fi
 
-# === RUN INSTALL ===
-echo "Running install.sh..."
-./install.sh
+echo ""
+
+# Run modular scripts in order
+SCRIPTS_DIR="$SCRIPT_DIR/scripts"
+
+if [ ! -d "$SCRIPTS_DIR" ]; then
+    echo "Error: scripts directory not found at $SCRIPTS_DIR"
+    exit 1
+fi
+
+# Make all scripts executable
+chmod +x "$SCRIPTS_DIR"/*.sh
+
+# Run setup scripts
+echo "=== Step 1/5: Setting up repositories ==="
+"$SCRIPTS_DIR/setup-repos.sh"
+echo ""
+
+echo "=== Step 2/5: Installing packages ==="
+"$SCRIPTS_DIR/install-packages.sh"
+echo ""
+
+echo "=== Step 3/5: Backing up existing configurations ==="
+"$SCRIPTS_DIR/backup-configs.sh"
+echo ""
+
+echo "=== Step 4/5: Deploying configurations ==="
+"$SCRIPTS_DIR/deploy-configs.sh"
+echo ""
+
+echo "=== Step 5/5: Post-installation setup ==="
+"$SCRIPTS_DIR/post-install.sh"
+echo ""
+
+echo "=========================================="
+echo "  Bootstrap complete!"
+echo "=========================================="
+echo ""
+echo "Your Fedora system has been configured with:"
+echo "  ✓ Hyprland window manager"
+echo "  ✓ Tofi launcher (Super+Space, Super+K)"
+echo "  ✓ Alacritty terminal"
+echo "  ✓ Lazygit and Lazydocker"
+echo "  ✓ Chromium for webapps"
+echo "  ✓ Fingerprint support"
+echo "  ✓ All dotfiles deployed"
+echo ""
+echo "Next steps:"
+echo "  1. Log out and select 'Hyprland' from the display manager"
+echo "  2. Or reload Hyprland config: hyprctl reload"
+echo "  3. Create webapps: make-webapp 'Name' 'https://url.com'"
+echo ""
+echo "Key bindings:"
+echo "  Super+Space  - Application launcher"
+echo "  Super+K      - Show keybinds"
+echo "  Super+Return - Terminal"
+echo "  Super+G      - LazyGit"
+echo "  Super+D      - LazyDocker"
+echo ""

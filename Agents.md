@@ -1,0 +1,4 @@
+- Commands need to be idempotent
+- Don't reinstall things already installed
+- Do everything via scripts and do not install manually
+- Only create in the repo and then stow.

@@ -1,0 +1,27 @@
+# Tofi configuration
+# Width and height in pixels (or use percentages if supported)
+width = 600
+height = 800
+prompt-text = "Search "
+# Use system default font that should always work
+font = "sans-serif"
+font-size = 16
+padding-top = 100
+padding-left = 100
+padding-right = 100
+padding-bottom = 100
+outline-width = 2
+border-width = 2
+result-spacing = 15
+num-results = 10
+# Ensure visibility - bright colors
+background-color = "#1e1e2e"
+outline-color = "#8aadf4"
+border-color = "#8aadf4"
+text-color = "#cdd6f4"
+prompt-color = "#8aadf4"
+selection-color = "#ffffff"
+selection-background = "#8aadf4"
+selection-padding = 5
+terminal = "alacritty"
+

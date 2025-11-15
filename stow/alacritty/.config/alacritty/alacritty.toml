@@ -1,32 +1,46 @@
 [font]
-normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-size = 14
+normal = { family = "JetBrains Mono", style = "Regular" }
+bold = { family = "JetBrains Mono", style = "Bold" }
+italic = { family = "JetBrains Mono", style = "Italic" }
+bold_italic = { family = "JetBrains Mono", style = "Bold Italic" }
+size = 11
+
+[font.offset]
+x = 0
+y = 0
 
 [window]
 padding = { x = 8, y = 8 }
 decorations = "buttonless"
 opacity = 0.95
 
+[terminal]
+# Use bash with proper initialization
+shell = { program = "/bin/bash", args = ["--login"] }
+
 [colors.primary]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
+background = "#1a1612"
+foreground = "#d4c4b0"
 
 [colors.normal]
-black   = "#45475a"
-red     = "#f38ba8"
-green   = "#a6e3a1"
-yellow  = "#f9e2af"
-blue    = "#89b4fa"
-magenta = "#f5c2e7"
-cyan    = "#94e2d5"
-white   = "#bac2de"
+black   = "#5c4a3a"
+red     = "#c49460"
+green   = "#9db5a0"
+yellow  = "#d4a574"
+blue    = "#8b9db5"
+magenta = "#b5a5a5"
+cyan    = "#a5b5b5"
+white   = "#d4c4b0"
 
 [colors.bright]
-black   = "#585b70"
-red     = "#f38ba8"
-green   = "#a6e3a1"
-yellow  = "#f9e2af"
-blue    = "#89b4fa"
-magenta = "#f5c2e7"
-cyan    = "#94e2d5"
-white   = "#a6adc8"
+black   = "#6c5a4a"
+red     = "#d4a480"
+green   = "#adc5b0"
+yellow  = "#e4b584"
+blue    = "#9badc5"
+magenta = "#c5b5b5"
+cyan    = "#b5c5c5"
+white   = "#e4d4c0"
+
+[cursor]
+style = "Block"

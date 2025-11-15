@@ -1,3 +1,145 @@
-* { font-family: "JetBrainsMono Nerd Font"; font-size: 14px; }
-window#waybar { background: rgba(30,30,46,0.9); color: #cad3f5; border-radius: 12px; }
-#workspaces button.focused { background: #8aadf4; }
+/* ============================================
+   THEME VARIABLES - Japanese Paper Theme
+   Change these values to easily swap themes
+   ============================================ */
+/* Background colors */
+/* --bg-primary: rgba(26, 22, 18, 0.95); */
+/* --bg-secondary: transparent; */
+
+/* Text colors */
+/* --text-primary: #d4c4b0; */
+/* --text-accent: #d4a574; */
+/* --text-urgent: #c49460; */
+/* --text-hover: #d4a574; */
+
+/* Border colors */
+/* --border-primary: rgba(212, 165, 116, 0.2); */
+/* --border-accent: rgba(212, 165, 116, 0.15); */
+
+/* Shadow */
+/* --shadow: 0 2px 8px rgba(0, 0, 0, 0.3); */
+
+/* Spacing */
+/* --spacing-xs: 2px; */
+/* --spacing-sm: 4px; */
+/* --spacing-md: 8px; */
+/* --spacing-lg: 12px; */
+/* --spacing-xl: 14px; */
+
+/* Typography */
+/* --font-size: 13px; */
+/* --font-weight-normal: 400; */
+/* --font-weight-bold: bold; */
+/* --letter-spacing-normal: 0.5px; */
+/* --letter-spacing-accent: 1px; */
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 13px;
+  font-weight: 400;
+}
+
+window#waybar {
+  background: rgba(26, 22, 18, 0.95);
+  color: #d4c4b0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 2px solid rgba(212, 165, 116, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Workspaces */
+#workspaces {
+  padding: 0 12px;
+}
+
+#workspaces button {
+  padding: 6px 10px;
+  margin: 0 2px;
+  border-radius: 0;
+  background: transparent;
+  color: #d4c4b0;
+  border: none;
+  box-shadow: none;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+#workspaces button:hover {
+  background: transparent;
+  color: #d4a574;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+  background: transparent;
+  color: #d4a574;
+  border: none;
+  font-weight: bold;
+  text-decoration: underline;
+  letter-spacing: 1px;
+}
+
+#workspaces button.urgent {
+  background: transparent;
+  color: #c49460;
+  border: none;
+  font-weight: bold;
+}
+
+/* Modules */
+#clock,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#battery,
+#tray {
+  padding: 0 10px;
+  margin: 0 2px;
+  border-radius: 0;
+  background: transparent;
+}
+
+#clock {
+  font-weight: bold;
+  background: transparent;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  padding: 0 14px;
+}
+
+/* Module separators - using padding instead of ::before */
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#battery {
+  padding-left: 12px;
+}
+
+/* Module hover effects */
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#pulseaudio:hover,
+#battery:hover {
+  background: transparent;
+  color: #d4a574;
+}
+
+/* Critical states */
+#battery.critical:not(.charging) {
+  background: transparent;
+  color: #c49460;
+  font-weight: bold;
+}
+
+#temperature.critical {
+  background: transparent;
+  color: #c49460;
+  font-weight: bold;
+}
