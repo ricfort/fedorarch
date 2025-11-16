@@ -216,6 +216,30 @@ else
     echo "uv already installed"
 fi
 
+# Spotify (via Flatpak)
+if ! flatpak list | grep -q "com.spotify.Client" 2>/dev/null; then
+    echo "Installing Spotify..."
+    if command -v flatpak >/dev/null 2>&1; then
+        if ! flatpak remote-list | grep -q "flathub" 2>/dev/null; then
+            echo "Adding Flathub repository..."
+            flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        fi
+        flatpak install -y flathub com.spotify.Client 2>/dev/null || {
+            echo "Warning: Failed to install Spotify via Flatpak"
+            echo "  Make sure Flatpak is installed: sudo dnf install flatpak"
+        }
+    else
+        echo "Installing Flatpak first..."
+        sudo dnf install -y flatpak
+        flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        flatpak install -y flathub com.spotify.Client 2>/dev/null || {
+            echo "Warning: Failed to install Spotify via Flatpak"
+        }
+    fi
+else
+    echo "Spotify already installed"
+fi
+
 # bluetuith (Bluetooth TUI - not in Fedora repos, install from GitHub)
 if ! command -v bluetuith >/dev/null 2>&1 && [ ! -f ~/.local/bin/bluetuith ]; then
     echo "Installing bluetuith..."
