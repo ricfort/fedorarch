@@ -61,6 +61,10 @@ ensure_target_dir() {
         uv)
             mkdir -p ~/.config/uv
             ;;
+        webapps)
+            mkdir -p ~/.local/share/applications
+            mkdir -p ~/.local/share/icons/webapps
+            ;;
     esac
 }
 

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Create WebApp
+GenericName=WebApp Creator
+Comment=Create a borderless web application from any URL
+Exec=/home/ricfort/.local/bin/make-webapp-launcher.sh
+Icon=application-x-executable
+Type=Application
+Categories=Utility;
+Terminal=false
+StartupNotify=true
+

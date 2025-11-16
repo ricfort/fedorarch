@@ -2,19 +2,33 @@
 set -euo pipefail
 
 # Chromium launcher - optimized for fast startup
-# Only does setup work when needed, otherwise launches immediately
+# Supports profiles: --profile=work or --profile=personal (defaults to Default)
+# Usage: chromium-launcher.sh [--profile=PROFILE] [other chromium args]
 
-VERSIONED_DIR="$HOME/.config/chromium/Default/Extensions/japanese-paper-theme/1.0"
+PROFILE="${CHROMIUM_PROFILE:-Default}"
+CHROMIUM_ARGS=()
+
+# Parse arguments for profile
+for arg in "$@"; do
+    if [[ "$arg" == --profile=* ]]; then
+        PROFILE="${arg#--profile=}"
+    else
+        CHROMIUM_ARGS+=("$arg")
+    fi
+done
+
+PROFILE_DIR="$HOME/.config/chromium/$PROFILE"
+VERSIONED_DIR="$PROFILE_DIR/Extensions/japanese-paper-theme/1.0"
 THEME_MANIFEST="$VERSIONED_DIR/manifest.json"
-PREFS_FILE="$HOME/.config/chromium/Default/Preferences"
+PREFS_FILE="$PROFILE_DIR/Preferences"
 
 # Fast path: if extension is installed and Preferences exist, launch immediately
 if [ -f "$THEME_MANIFEST" ] && [ -f "$PREFS_FILE" ] && grep -q '"toolbar": \[26, 22, 18\]' "$PREFS_FILE" 2>/dev/null; then
-    exec chromium-browser --load-extension="$VERSIONED_DIR" "$@"
+    exec chromium-browser --profile-directory="$PROFILE" --load-extension="$VERSIONED_DIR" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
 fi
 
 # Setup path: only runs if extension or theme not set up
-THEME_DIR="$HOME/.config/chromium/Default/Extensions/japanese-paper-theme"
+THEME_DIR="$PROFILE_DIR/Extensions/japanese-paper-theme"
 mkdir -p "$THEME_DIR"
 
 # Find manifest in stow directory
@@ -79,11 +93,11 @@ if [ ! -f "$PREFS_FILE" ] || ! grep -q '"toolbar": \[26, 22, 18\]' "$PREFS_FILE"
         echo '{}' > "$PREFS_FILE"
     fi
     
-    python3 << 'PYTHON_SCRIPT'
+    python3 << PYTHON_SCRIPT
 import json
 import os
 
-prefs_file = os.path.expanduser("~/.config/chromium/Default/Preferences")
+prefs_file = os.path.expanduser("~/.config/chromium/$PROFILE/Preferences")
 
 theme_config = {
     "theme": {
@@ -139,7 +153,7 @@ fi
 
 # Install theme extension ONLY on first launch
 # Check if already installed by looking for the manifest file
-VERSIONED_DIR="$HOME/.config/chromium/Default/Extensions/japanese-paper-theme/1.0"
+# (VERSIONED_DIR already set at top of script)
 THEME_MANIFEST="$VERSIONED_DIR/manifest.json"
 
 # Only install if manifest doesn't exist (first launch)
@@ -185,11 +199,12 @@ MANIFEST_EOF
     fi
     
     # Register extension in Preferences (only on first install)
-    python3 << 'PYTHON_SCRIPT'
+    python3 << PYTHON_SCRIPT
 import json
 import os
 
-prefs_file = os.path.expanduser("~/.config/chromium/Default/Preferences")
+profile = "$PROFILE"
+prefs_file = os.path.expanduser(f"~/.config/chromium/{profile}/Preferences")
 
 try:
     with open(prefs_file, 'r') as f:
@@ -205,7 +220,7 @@ if "settings" not in prefs["extensions"]:
     prefs["extensions"]["settings"] = {}
 
 theme_id = "japanese-paper-theme"
-theme_path = os.path.expanduser("~/.config/chromium/Default/Extensions/japanese-paper-theme/1.0")
+theme_path = os.path.expanduser(f"~/.config/chromium/{profile}/Extensions/japanese-paper-theme/1.0")
 
 # Install theme extension (this only runs on first launch)
 # Enable the theme extension
@@ -259,5 +274,6 @@ fi
 # Launch Chromium
 # Always ensure theme is loaded - use --load-extension but only update Preferences if needed
 # The --load-extension flag is needed for Chromium to recognize the theme extension
-exec chromium-browser --load-extension="$VERSIONED_DIR" "$@"
+# --no-first-run and --no-default-browser-check prevent profile picker from showing
+exec chromium-browser --profile-directory="$PROFILE" --load-extension="$VERSIONED_DIR" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
 

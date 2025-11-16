@@ -112,6 +112,42 @@ else
     echo "Docker is not installed, skipping Docker setup"
 fi
 
+# Setup Chromium profiles
+echo "Setting up Chromium profiles..."
+if command -v chromium-browser >/dev/null 2>&1 || command -v chromium >/dev/null 2>&1; then
+    if [ -f "$HOME/.local/bin/setup-chromium-profiles.sh" ]; then
+        echo "Configuring Chromium profiles (Personal and Work)..."
+        "$HOME/.local/bin/setup-chromium-profiles.sh" || echo "Warning: Failed to set up Chromium profiles"
+    else
+        echo "Warning: setup-chromium-profiles.sh not found"
+    fi
+else
+    echo "Chromium is not installed, skipping Chromium profile setup"
+fi
+
+# Setup shell (bash compatibility, even though we use zsh as default)
+echo "Setting up shell configuration..."
+if [ -f "$HOME/.local/bin/setup-shell.sh" ]; then
+    echo "Configuring bash shell (for compatibility)..."
+    "$HOME/.local/bin/setup-shell.sh" || echo "Warning: Failed to set up shell configuration"
+else
+    echo "Warning: setup-shell.sh not found"
+fi
+
+# Prepare wallpapers (optional - only if source image exists)
+echo "Checking for wallpaper preparation..."
+if [ -f "$HOME/.local/bin/prepare-wallpaper.sh" ]; then
+    if [ -f "$HOME/Pictures/samurailotus.png" ]; then
+        echo "Preparing wallpapers from source image..."
+        "$HOME/.local/bin/prepare-wallpaper.sh" || echo "Warning: Failed to prepare wallpapers"
+    else
+        echo "Wallpaper source image not found, skipping wallpaper preparation"
+        echo "  (Place samurailotus.png in ~/Pictures/ to auto-generate wallpapers)"
+    fi
+else
+    echo "Warning: prepare-wallpaper.sh not found"
+fi
+
 # Ensure fprintd service is running
 echo "Checking fprintd service..."
 if systemctl is-active fprintd >/dev/null 2>&1; then
