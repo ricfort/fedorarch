@@ -1,3 +1,31 @@
 gui:
-  theme: catppuccin-mocha
   nerdFontsVersion: "3"
+  theme:
+    activeBorderColor:
+      - "#d4a574"
+      - bold
+    inactiveBorderColor:
+      - "#5c4a3a"
+    searchingActiveBorderColor:
+      - "#d4a574"
+      - bold
+    optionsTextColor:
+      - "#d4c4b0"
+    selectedLineBgColor:
+      - "#5c4a3a"
+    selectedRangeBgColor:
+      - "#5c4a3a"
+    inactiveViewSelectedLineBgColor:
+      - "#3a2e26"
+    cherryPickedCommitFgColor:
+      - "#d4a574"
+    cherryPickedCommitBgColor:
+      - "#5c4a3a"
+    markedBaseCommitFgColor:
+      - "#d4a574"
+    markedBaseCommitBgColor:
+      - "#5c4a3a"
+    unstagedChangesColor:
+      - "#c49460"
+    defaultFgColor:
+      - "#d4c4b0"
