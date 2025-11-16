@@ -56,6 +56,8 @@ DEV_PACKAGES=(
     "gcc"
     "gcc-c++"
     "make"
+    "docker"
+    "docker-compose"
 )
 
 # Fonts

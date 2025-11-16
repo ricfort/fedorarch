@@ -80,6 +80,38 @@ fi
 # Reload systemd user daemon
 systemctl --user daemon-reload || true
 
+# Setup Docker
+echo "Setting up Docker..."
+if command -v docker >/dev/null 2>&1; then
+    # Add user to docker group if not already added
+    if ! groups | grep -q docker; then
+        echo "Adding user to docker group..."
+        sudo usermod -aG docker "$USER" || echo "Warning: Failed to add user to docker group"
+        echo "Note: You may need to log out and back in for docker group changes to take effect"
+    else
+        echo "User is already in docker group"
+    fi
+    
+    # Enable and start Docker service (runs on boot, stays alive)
+    # Super+Shift+D will stop containers, not the daemon
+    if systemctl is-enabled docker >/dev/null 2>&1; then
+        echo "Docker service already enabled"
+    else
+        echo "Enabling Docker service..."
+        sudo systemctl enable docker || echo "Warning: Failed to enable Docker service"
+    fi
+    
+    # Start Docker service if not already running
+    if systemctl is-active --quiet docker 2>/dev/null; then
+        echo "Docker service already running"
+    else
+        echo "Starting Docker service..."
+        sudo systemctl start docker || echo "Warning: Failed to start Docker service"
+    fi
+else
+    echo "Docker is not installed, skipping Docker setup"
+fi
+
 # Ensure fprintd service is running
 echo "Checking fprintd service..."
 if systemctl is-active fprintd >/dev/null 2>&1; then
