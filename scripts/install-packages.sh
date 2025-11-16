@@ -42,6 +42,7 @@ UTILITY_PACKAGES=(
     "grim"
     "slurp"
     "satty"
+    "wf-recorder"
     "jq"
 )
 

@@ -134,6 +134,15 @@ else
     echo "Warning: setup-shell.sh not found"
 fi
 
+# Setup GTK dark theme
+echo "Setting up GTK dark theme..."
+if [ -f "$HOME/.local/bin/setup-gtk-theme.sh" ]; then
+    echo "Configuring GTK dark theme..."
+    "$HOME/.local/bin/setup-gtk-theme.sh" || echo "Warning: Failed to set up GTK theme"
+else
+    echo "Warning: setup-gtk-theme.sh not found"
+fi
+
 # Prepare wallpapers (optional - only if source image exists)
 echo "Checking for wallpaper preparation..."
 if [ -f "$HOME/.local/bin/prepare-wallpaper.sh" ]; then
