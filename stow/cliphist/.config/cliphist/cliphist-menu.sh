@@ -45,9 +45,25 @@ selection=$(echo "$clipboard_list" | tofi --prompt-text="󰨸 " \
     --result-spacing=16 \
     --num-results=15 2>/dev/null)
 
-# If selection was made, copy it to clipboard
+# If selection was made, copy it to clipboard AND paste it
 if [ -n "$selection" ]; then
+    # Copy to clipboard
     echo "$selection" | cliphist decode | wl-copy
-    # Optionally send a notification
-    notify-send "Clipboard" "Copied to clipboard" --urgency=low --expire-time=1000 2>/dev/null &
+    
+    # Small delay to ensure clipboard is set
+    sleep 0.1
+    
+    # Paste using wtype (simulates Ctrl+V)
+    if command -v wtype >/dev/null 2>&1; then
+        wtype -M ctrl
+        sleep 0.05
+        wtype -P v
+        sleep 0.05
+        wtype -m ctrl
+    elif command -v ydotool >/dev/null 2>&1; then
+        ydotool key ctrl+v
+    else
+        # Fallback: just copy, user can paste manually
+        notify-send "Clipboard" "Copied to clipboard (paste with Ctrl+V)" --urgency=low --expire-time=1000 2>/dev/null &
+    fi
 fi

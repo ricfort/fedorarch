@@ -38,6 +38,7 @@ UTILITY_PACKAGES=(
     "cliphist"
     "wl-clip-persist"
     "wl-clipboard"
+    "wtype"
     "grim"
     "slurp"
     "satty"

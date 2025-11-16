@@ -2,8 +2,9 @@
 # Modern, fancy launcher with aged paper aesthetic
 
 # Window dimensions (percentage-based for responsiveness)
-width = 50%
-height = 50%
+# Thin and vertical - more height than width
+width = 15%
+height = 40%
 
 # Positioning (centered)
 anchor = center
