@@ -62,7 +62,7 @@ DEV_PACKAGES=(
 
 # Fonts
 FONT_PACKAGES=(
-    "jetbrains-mono-fonts"
+    "cascadia-code-fonts"
     "fontawesome-6-free-fonts"
 )
 
@@ -80,7 +80,7 @@ FINGERPRINT_PACKAGES=(
 
 # Nerd Fonts (optional, from COPR)
 NERD_FONT_PACKAGES=(
-    "fira-code-nerd-fonts"
+    "cascadia-code-nerd-fonts"
 )
 
 # Combine all packages
@@ -176,15 +176,16 @@ else
 fi
 
 # Install Nerd Fonts (optional, may fail if COPR not available)
-if ! package_installed "fira-code-nerd-fonts"; then
-    echo "Installing Nerd Fonts..."
-    if sudo dnf install -y fira-code-nerd-fonts 2>/dev/null; then
-        echo "Nerd Fonts installed successfully"
+if ! package_installed "cascadia-code-nerd-fonts"; then
+    echo "Installing Cascadia Code Nerd Fonts..."
+    if sudo dnf install -y cascadia-code-nerd-fonts 2>/dev/null; then
+        echo "Cascadia Code Nerd Fonts installed successfully"
     else
-        echo "Warning: Failed to install Nerd Fonts (COPR may not be available)"
+        echo "Warning: Failed to install Cascadia Code Nerd Fonts (COPR may not be available)"
+        echo "You can install manually: sudo dnf install cascadia-code-nerd-fonts"
     fi
 else
-    echo "Nerd Fonts already installed"
+    echo "Cascadia Code Nerd Fonts already installed"
 fi
 
 # Optional: NVIDIA drivers (will fail gracefully if not needed)
