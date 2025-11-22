@@ -3,3 +3,5 @@
 - Do everything via scripts and do not install manually
 - Only create in the repo and then stow.
 - All of the content should be automatically installed when calling bootstrap.sh at the beginning of a setup.
+- Installations should always come from the install-packages entry point. There can be multiple installation scripts but only one entry point.
+- Use fedora COPR repository where dnf not available.

@@ -1,0 +1,43 @@
+# Ghostty Configuration - Japanese Paper Theme
+# Migrated from Alacritty with the same theme
+
+# Font settings
+font-family = "CaskaydiaCove Nerd Font"
+font-size = 11
+font-family-bold = "CaskaydiaCove Nerd Font Bold"
+font-family-italic = "CaskaydiaCove Nerd Font Italic"
+font-family-bold-italic = "CaskaydiaCove Nerd Font Bold Italic"
+
+# Window settings
+window-padding-x = 8
+window-padding-y = 8
+window-decoration = none
+
+# Terminal settings
+working-directory = home
+
+# Color scheme - Japanese Paper Theme
+background = #1a1612
+foreground = #d4c4b0
+
+# Color palette (0-15)
+palette = 0=#5c4a3a
+palette = 1=#c49460
+palette = 2=#9db5a0
+palette = 3=#d4a574
+palette = 4=#8b9db5
+palette = 5=#b5a5a5
+palette = 6=#a5b5b5
+palette = 7=#d4c4b0
+palette = 8=#6c5a4a
+palette = 9=#d4a480
+palette = 10=#adc5b0
+palette = 11=#e4b584
+palette = 12=#9badc5
+palette = 13=#c5b5b5
+palette = 14=#b5c5c5
+palette = 15=#e4d4c0
+
+# Cursor
+cursor-style = block
+

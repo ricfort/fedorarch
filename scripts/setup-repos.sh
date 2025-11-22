@@ -34,6 +34,7 @@ COPR_REPOS=(
     "alternateved/tofi"
     "leloubil/wl-clip-persist"
     "aquacash5/nerd-fonts"
+    "scottames/ghostty"
 )
 
 for repo in "${COPR_REPOS[@]}"; do

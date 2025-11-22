@@ -28,8 +28,8 @@ find ~/.local/share -type l ! -exec test -e {} \; -delete 2>/dev/null || true
 ensure_target_dir() {
     local package_name="$1"
     case "$package_name" in
-        alacritty)
-            mkdir -p ~/.config/alacritty
+        ghostty)
+            mkdir -p ~/.config/ghostty
             ;;
         hyprland|hyprland-keys)
             mkdir -p ~/.config/hypr

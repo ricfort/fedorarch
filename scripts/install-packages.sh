@@ -24,7 +24,7 @@ HYPRLAND_PACKAGES=(
 ESSENTIAL_PACKAGES=(
     "waybar"
     "tofi"
-    "alacritty"
+    "ghostty"
     "chromium"
     "dunst"
     "thunar"
@@ -35,10 +35,12 @@ ESSENTIAL_PACKAGES=(
 
 # Clipboard and utilities
 UTILITY_PACKAGES=(
+    "clipman"
     "cliphist"
     "wl-clip-persist"
     "wl-clipboard"
     "wtype"
+    "ydotool"
     "grim"
     "slurp"
     "satty"
@@ -267,6 +269,7 @@ if ! command -v bluetuith >/dev/null 2>&1 && [ ! -f ~/.local/bin/bluetuith ]; th
 else
     echo "bluetuith already installed"
 fi
+
 
 # hyprmon (Monitor TUI - not in Fedora repos, install from GitHub)
 export PATH="$HOME/.local/bin:$PATH"

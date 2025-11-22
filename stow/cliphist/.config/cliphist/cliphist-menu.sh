@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Clipboard history menu (Omarchy 3.0 approach)
+# Uses cliphist for history, tofi for menu
 set +e
 set -u
 
@@ -20,13 +22,12 @@ fi
 # Get clipboard history
 clipboard_list=$(cliphist list 2>/dev/null)
 
-# Check if clipboard is empty
 if [ -z "$clipboard_list" ]; then
     notify-send "Clipboard" "Clipboard history is empty" --urgency=normal --expire-time=2000 2>/dev/null
     exit 0
 fi
 
-# Show menu with tofi
+# Show menu and get selection
 selection=$(echo "$clipboard_list" | tofi --prompt-text="󰨸 " \
     --width=50% --height=50% \
     --anchor=center \
@@ -45,25 +46,29 @@ selection=$(echo "$clipboard_list" | tofi --prompt-text="󰨸 " \
     --result-spacing=16 \
     --num-results=15 2>/dev/null)
 
-# If selection was made, copy it to clipboard AND paste it
+# If selection made: copy to clipboard and paste (Omarchy 3.0 style)
 if [ -n "$selection" ]; then
-    # Copy to clipboard
-    echo "$selection" | cliphist decode | wl-copy
+    # Store window before opening menu (for refocusing after selection)
+    PREV_WINDOW=""
+    if command -v hyprctl >/dev/null 2>&1; then
+        PREV_WINDOW=$(hyprctl activewindow -j 2>/dev/null | grep -o '"address":[^,]*' | cut -d'"' -f4)
+    fi
     
-    # Small delay to ensure clipboard is set
-    sleep 0.1
+    # Decode and copy to clipboard
+    CLIPBOARD_TEXT=$(echo "$selection" | cliphist decode 2>/dev/null)
+    if [ -z "$CLIPBOARD_TEXT" ]; then
+        CLIPBOARD_TEXT="$selection"
+    fi
+    printf '%s' "$CLIPBOARD_TEXT" | wl-copy
     
-    # Paste using wtype (simulates Ctrl+V)
-    if command -v wtype >/dev/null 2>&1; then
-        wtype -M ctrl
+    # Refocus previous window
+    if [ -n "$PREV_WINDOW" ]; then
+        hyprctl dispatch focuswindow "address:$PREV_WINDOW" 2>/dev/null
         sleep 0.05
-        wtype -P v
-        sleep 0.05
-        wtype -m ctrl
-    elif command -v ydotool >/dev/null 2>&1; then
-        ydotool key ctrl+v
-    else
-        # Fallback: just copy, user can paste manually
-        notify-send "Clipboard" "Copied to clipboard (paste with Ctrl+V)" --urgency=low --expire-time=1000 2>/dev/null &
+    fi
+    
+    # Trigger paste using the paste script
+    if [ -f ~/.local/bin/clipboard-paste.sh ]; then
+        ~/.local/bin/clipboard-paste.sh
     fi
 fi

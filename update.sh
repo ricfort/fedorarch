@@ -31,8 +31,8 @@ if [ -d stow ]; then
         
         # Ensure target directories exist
         case "$package_name" in
-            alacritty)
-                mkdir -p ~/.config/alacritty
+            ghostty)
+                mkdir -p ~/.config/ghostty
                 ;;
             hyprland|hyprland-keys)
                 mkdir -p ~/.config/hypr

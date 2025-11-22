@@ -19,12 +19,10 @@ if [ -f stow/hyprland/.config/hypr/hyprland.conf ]; then
     fi
 fi
 
-# Validate Alacritty config (TOML)
-if [ -f stow/alacritty/.config/alacritty/alacritty.toml ]; then
-    echo "Checking Alacritty config..."
-    if command -v toml-cli >/dev/null 2>&1 || python3 -c "import tomli" 2>/dev/null; then
-        echo "  Alacritty config file exists"
-    fi
+# Validate Ghostty config
+if [ -f stow/ghostty/.config/ghostty/config ]; then
+    echo "Checking Ghostty config..."
+    echo "  Ghostty config file exists"
 fi
 
 # Check for required directories

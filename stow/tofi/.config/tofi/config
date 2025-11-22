@@ -44,4 +44,4 @@ num-results = 10
 hide-cursor = false
 
 # Terminal for running commands
-terminal = "alacritty"
+terminal = "ghostty"

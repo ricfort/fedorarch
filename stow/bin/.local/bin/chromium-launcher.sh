@@ -23,8 +23,41 @@ THEME_MANIFEST="$VERSIONED_DIR/manifest.json"
 PREFS_FILE="$PROFILE_DIR/Preferences"
 
 # Fast path: if extension is installed and Preferences exist, launch immediately
+# Only use --load-extension if the extension actually exists
 if [ -f "$THEME_MANIFEST" ] && [ -f "$PREFS_FILE" ] && grep -q '"toolbar": \[26, 22, 18\]' "$PREFS_FILE" 2>/dev/null; then
     exec chromium-browser --profile-directory="$PROFILE" --load-extension="$VERSIONED_DIR" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
+elif [ -f "$PREFS_FILE" ] && [ ! -f "$THEME_MANIFEST" ]; then
+    # Preferences exist but extension is missing - remove broken extension reference
+    python3 << 'CLEANUP_SCRIPT'
+import json
+import os
+import sys
+
+profile = os.environ.get('PROFILE', 'Default')
+prefs_file = os.path.expanduser(f"~/.config/chromium/{profile}/Preferences")
+
+try:
+    with open(prefs_file, 'r') as f:
+        prefs = json.load(f)
+    
+    # Remove broken extension reference if it exists
+    if 'extensions' in prefs and 'settings' in prefs.get('extensions', {}):
+        if 'japanese-paper-theme' in prefs['extensions']['settings']:
+            del prefs['extensions']['settings']['japanese-paper-theme']
+            print("Removed broken extension reference", file=sys.stderr)
+        
+        # Clear theme if it references the missing extension
+        if prefs.get('extensions', {}).get('theme', {}).get('id') == 'japanese-paper-theme':
+            prefs['extensions']['theme'] = {}
+            print("Cleared broken theme reference", file=sys.stderr)
+    
+    with open(prefs_file, 'w') as f:
+        json.dump(prefs, f, indent=2)
+except Exception as e:
+    print(f"Error cleaning Preferences: {e}", file=sys.stderr)
+CLEANUP_SCRIPT
+    # Launch without extension
+    exec chromium-browser --profile-directory="$PROFILE" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
 fi
 
 # Setup path: only runs if extension or theme not set up
@@ -152,6 +185,7 @@ PYTHON_SCRIPT
 fi
 
 # Install theme extension ONLY on first launch
+
 # Check if already installed by looking for the manifest file
 # (VERSIONED_DIR already set at top of script)
 THEME_MANIFEST="$VERSIONED_DIR/manifest.json"
@@ -272,8 +306,12 @@ PYTHON_SCRIPT
 fi
 
 # Launch Chromium
-# Always ensure theme is loaded - use --load-extension but only update Preferences if needed
-# The --load-extension flag is needed for Chromium to recognize the theme extension
+# Only use --load-extension if extension exists, otherwise launch normally
 # --no-first-run and --no-default-browser-check prevent profile picker from showing
-exec chromium-browser --profile-directory="$PROFILE" --load-extension="$VERSIONED_DIR" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
+if [ -f "$THEME_MANIFEST" ]; then
+    exec chromium-browser --profile-directory="$PROFILE" --load-extension="$VERSIONED_DIR" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
+else
+    # Extension missing - launch without it to avoid profile errors
+    exec chromium-browser --profile-directory="$PROFILE" --no-first-run --no-default-browser-check "${CHROMIUM_ARGS[@]}"
+fi
 

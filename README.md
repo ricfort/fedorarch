@@ -68,7 +68,7 @@ fedorarch/
 ├── install.sh        # Main installation script
 ├── update.sh         # Update script for pulling changes
 └── stow/             # Dotfiles organized by application
-    ├── alacritty/
+    ├── ghostty/
     ├── bin/
     ├── cliphist/
     ├── hyprland/
@@ -84,7 +84,7 @@ fedorarch/
 ## Key Bindings
 
 - `Super + Space`: Application launcher (tofi)
-- `Super + Return`: Terminal (alacritty)
+- `Super + Return`: Terminal (ghostty)
 - `Super + K`: Show keybinds
 - `Super + V`: Clipboard menu
 - `Super + G`: LazyGit
