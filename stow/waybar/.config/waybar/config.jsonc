@@ -1,10 +1,10 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 36,
+  "height": 38,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["cpu", "memory", "temperature", "network", "pulseaudio", "battery", "tray"],
+  "modules-right": ["custom/cpu", "custom/memory", "temperature", "network", "pulseaudio", "custom/battery", "tray", "custom/media"],
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
@@ -25,33 +25,37 @@
     "format": "{:%H:%M %a %b %d}",
     "tooltip-format": "{:%A %B %d %Y}"
   },
-  "cpu": {
-    "format": "󰻠 {usage}%",
+  "custom/cpu": {
+    "format": "{}",
+    "exec": "~/.local/bin/waybar-cpu.sh",
     "interval": 2,
     "tooltip": false
   },
-  "memory": {
-    "format": "󰍛 {percentage}%",
+  "custom/memory": {
+    "format": "{}",
+    "exec": "~/.local/bin/waybar-memory.sh",
     "interval": 2,
-    "tooltip-format": "Memory: {used:0.1f}G / {total:0.1f}G"
+    "tooltip": false
   },
   "temperature": {
     "critical-threshold": 80,
-    "format": "{icon} {temperatureC}°C",
+    "format": "{temperatureC}°C 󰈸",
     "format-icons": ["󰈸", "󰈸", "󰈸"],
     "tooltip": false
   },
   "network": {
-    "format-wifi": "󰤨 {signalStrength}%",
-    "format-ethernet": "󰈀 Connected",
-    "format-linked": "󰈀 {ifname} (No IP)",
-    "format-disconnected": "󰤭 Disconnected",
+    "format-wifi": "{signalStrength}% 󰤨",
+    "format-ethernet": "󰈀",
+    "format-linked": "󰈀 {ifname}",
+    "format-disconnected": "󰤭",
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
     "tooltip-format": "{essid} - {signalStrength}%"
   },
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "{volume}% {icon}",
     "format-muted": "󰝟 Muted",
+    "format-source": "{volume}% 󰍬",
+    "format-source-muted": "󰍭",
     "format-icons": {
       "0": "󰕿",
       "50": "󰖀",
@@ -59,19 +63,27 @@
     },
     "on-click": "pavucontrol"
   },
-  "battery": {
-    "states": {
-      "warning": 30,
-      "critical": 15
-    },
-    "format": "{icon} {capacity}%",
-    "format-charging": "󰂄 {capacity}%",
-    "format-plugged": "󰂄 {capacity}%",
-    "format-alt": "{icon} {time}",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+  "custom/battery": {
+    "format": "{}",
+    "exec": "~/.local/bin/waybar-battery.sh",
+    "interval": 5,
+    "tooltip": false
   },
   "tray": {
-    "icon-size": 21,
-    "spacing": 10
+    "icon-size": 18,
+    "spacing": 12
+  },
+  "custom/media": {
+    "format": "{}",
+    "return-type": "json",
+    "max-length": 50,
+    "exec": "~/.local/bin/waybar-music.sh",
+    "interval": 1,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-click-middle": "playerctl previous",
+    "on-scroll-up": "playerctl volume 0.05+",
+    "on-scroll-down": "playerctl volume 0.05-",
+    "tooltip": true
   }
 }

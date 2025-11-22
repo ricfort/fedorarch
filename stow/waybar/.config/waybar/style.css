@@ -36,58 +36,75 @@
 * {
   font-family: "CaskaydiaCove Nerd Font";
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 window#waybar {
-  background: rgba(26, 22, 18, 0.95);
-  color: #d4c4b0;
-  border-radius: 0;
+  background: transparent;
+  color: #e8dcc8;
   border: none;
-  border-bottom: 2px solid rgba(212, 165, 116, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 /* Workspaces */
 #workspaces {
-  padding: 0 12px;
+  padding: 0 8px;
+  margin: 4px 0;
 }
 
 #workspaces button {
-  padding: 6px 10px;
-  margin: 0 2px;
-  border-radius: 0;
-  background: transparent;
-  color: #d4c4b0;
-  border: none;
-  box-shadow: none;
+  padding: 4px 14px;
+  margin: 0 4px;
+  border-radius: 16px;
+  background: rgba(26, 22, 18, 0.85);
+  color: #e8dcc8;
+  border: 1.5px solid rgba(212, 165, 116, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   font-size: 13px;
+  font-weight: 600;
   letter-spacing: 0.5px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 28px;
 }
 
 #workspaces button:hover {
-  background: transparent;
+  background: rgba(26, 22, 18, 0.95);
   color: #d4a574;
+  border-color: rgba(212, 165, 116, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
 }
 
 #workspaces button.focused,
 #workspaces button.active {
-  background: transparent;
+  background: rgba(212, 165, 116, 0.25);
   color: #d4a574;
-  border: none;
-  font-weight: bold;
-  text-decoration: underline;
-  letter-spacing: 1px;
+  border: 1.5px solid rgba(212, 165, 116, 0.5);
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
 }
 
 #workspaces button.urgent {
-  background: transparent;
+  background: rgba(196, 148, 96, 0.35);
   color: #c49460;
-  border: none;
-  font-weight: bold;
+  border: 1.5px solid rgba(196, 148, 96, 0.6);
+  font-weight: 700;
+  animation: urgentPulse 2s ease-in-out infinite;
 }
 
-/* Modules */
+@keyframes urgentPulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Modules - Rounded buttons with better spacing */
 #clock,
 #cpu,
 #memory,
@@ -95,29 +112,42 @@ window#waybar {
 #network,
 #pulseaudio,
 #battery,
-#tray {
-  padding: 0 10px;
-  margin: 0 2px;
-  border-radius: 0;
-  background: transparent;
+#tray,
+#custom-media,
+#custom-cpu,
+#custom-memory,
+#custom-battery {
+  padding: 4px 16px;
+  margin: 4px 4px;
+  border-radius: 16px;
+  background: rgba(26, 22, 18, 0.85);
+  border: 1.5px solid rgba(212, 165, 116, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #e8dcc8;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 #clock {
-  font-weight: bold;
-  background: transparent;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  padding: 0 14px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  padding: 4px 18px;
 }
 
-/* Module separators - using padding instead of ::before */
+/* Make icons more prominent with larger font size */
 #cpu,
 #memory,
 #temperature,
 #network,
 #pulseaudio,
-#battery {
-  padding-left: 12px;
+#battery,
+#custom-cpu,
+#custom-memory,
+#custom-battery {
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
 /* Module hover effects */
@@ -126,20 +156,66 @@ window#waybar {
 #temperature:hover,
 #network:hover,
 #pulseaudio:hover,
-#battery:hover {
-  background: transparent;
+#battery:hover,
+#clock:hover,
+#custom-media:hover,
+#custom-cpu:hover,
+#custom-memory:hover,
+#custom-battery:hover {
+  background: rgba(26, 22, 18, 0.95);
   color: #d4a574;
+  border-color: rgba(212, 165, 116, 0.45);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Music player - animated */
+#custom-media {
+  background: rgba(212, 165, 116, 0.15);
+  border-color: rgba(212, 165, 116, 0.3);
+  color: #e8dcc8;
+  font-weight: 500;
+}
+
+#custom-media.playing {
+  background: rgba(212, 165, 116, 0.25);
+  border-color: rgba(212, 165, 116, 0.5);
+  color: #d4a574;
+  animation: musicPulse 1.5s ease-in-out infinite;
+  box-shadow: 0 2px 8px rgba(212, 165, 116, 0.3);
+}
+
+@keyframes musicPulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Tray styling */
+#tray {
+  padding: 4px 12px;
+}
+
+#tray > * {
+  padding: 0 5px;
 }
 
 /* Critical states */
 #battery.critical:not(.charging) {
-  background: transparent;
+  background: rgba(196, 148, 96, 0.3);
   color: #c49460;
+  border-color: rgba(196, 148, 96, 0.5);
   font-weight: bold;
 }
 
 #temperature.critical {
-  background: transparent;
+  background: rgba(196, 148, 96, 0.3);
   color: #c49460;
+  border-color: rgba(196, 148, 96, 0.5);
   font-weight: bold;
 }
