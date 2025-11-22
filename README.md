@@ -1,140 +1,137 @@
-# Fedorarch - Fedora Omarchy Rice
+# Fedorarch
 
-# STILL WIP
+**Fedorarch** is a modular, Omarchy-style configuration framework for **Fedora Linux**. It provides a polished, keyboard-centric Wayland environment powered by **Hyprland**, with a focus on maintainability, modularity, and ease of use.
 
-A dotfiles repository for configuring Fedora with Hyprland in an Arch-style setup.
+## 🚀 Features
 
-## Quick Start
+*   **Window Manager:** Hyprland (Wayland) with a "dwindle" layout.
+*   **Terminal:** Ghostty - fast, GPU-accelerated.
+*   **Launcher:** Tofi - minimal and fast.
+*   **Bar:** Waybar - highly customizable status bar.
+*   **Notifications:** Dunst.
+*   **Shell:** Zsh with pure prompt.
+*   **Development:** Neovim, Lazygit, Lazydocker, Mise, UV.
+*   **Modular:** Logic (`scripts/lib`) is separated from configuration (`scripts/config`).
+*   **Safe:** Supports `DRY_RUN` mode and includes validation scripts.
 
-### Initial Setup
+## 📦 Installation
 
+### Prerequisites
+*   A fresh install of Fedora Workstation (recommended) or Server.
+*   Internet connection.
+
+### One-Line Bootstrap
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ricfort/fedorarch/main/bootstrap.sh | bash
 ```
 
-Or clone manually:
+### Manual Installation
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/ricfort/fedorarch.git ~/fedorarch
+    cd ~/fedorarch
+    ```
+2.  Run the bootstrap script:
+    ```bash
+    ./bootstrap.sh
+    ```
 
+## 🛠 Configuration
+
+The project is designed to be modular. You don't need to edit complex scripts to change what gets installed.
+
+### Managing Packages
+Edit `scripts/config/packages.sh` to add or remove standard Fedora packages.
+To add a package interactively:
 ```bash
-git clone git@github.com:ricfort/fedorarch.git ~/fedorarch
-cd ~/fedorarch
-./install.sh
+./scripts/add-package.sh
 ```
 
-## Updating After Pulling Changes
+### Managing Repositories
+Edit `scripts/config/repos.sh` to manage COPR repositories.
 
-### Option 1: Use the Update Script (Recommended)
+### Personal Settings
+*   **Monitors:** Run `./scripts/configure-monitors.sh` or edit `~/.config/hypr/monitors.conf`.
+*   **User Overrides:** Edit `~/.config/hypr/user.conf` for custom keybinds or rules. This file is sourced last and takes precedence.
 
+### Web Apps & Profiles
+This config is optimized for a multi-profile Chromium workflow:
+
+*   **Personal Profile:** Launch with `Super + B`.
+*   **Work Profile:** Launch with `Super + Shift + B`.
+
+**Creating Web Apps:**
+You can easily turn any website into a standalone desktop app (SSB) that integrates with your launcher and Hyprland rules.
 ```bash
-cd ~/fedorarch
+make-webapp
+```
+This interactive tool will ask for:
+1.  **Name:** (e.g., "Gmail")
+2.  **URL:** (e.g., "mail.google.com")
+3.  **Icon:** (Optional URL to an icon image)
+4.  **Profile:** Choose whether it runs in your Personal or Work session.
+
+Web apps are isolated, have no window decorations (handled by Hyprland), and appear in the `Super + Space` launcher.
+
+### Deploying Changes
+If you manually edit dotfiles in the `stow/` directory, run:
+```bash
+./scripts/deploy-configs.sh
+```
+Or simply:
+```bash
 ./update.sh
 ```
 
-This script will:
-- Pull the latest changes from git
-- Re-stow all dotfiles
-- Make scripts executable
+## 📂 Project Structure
 
-### Option 2: Manual Update
-
-```bash
-cd ~/fedorarch
-git pull
-
-# Re-stow all directories
-stow -v -d stow -t ~ */
-```
-
-Or re-stow specific directories:
-
-```bash
-stow -v -d stow -t ~ hyprland
-stow -v -d stow -t ~ waybar
-# etc...
-```
-
-### After Updating
-
-Some changes may require restarting services:
-
-- **Hyprland**: Reload config with `hyprctl reload` or restart Hyprland
-- **Waybar**: Restart waybar (`killall waybar; waybar &`)
-- **Systemd user services**: `systemctl --user daemon-reload`
-
-## Directory Structure
-
-```
+```text
 fedorarch/
-├── bootstrap.sh      # Initial system setup
-├── install.sh        # Main installation script
-├── update.sh         # Update script for pulling changes
-└── stow/             # Dotfiles organized by application
-    ├── ghostty/
-    ├── bin/
-    ├── cliphist/
-    ├── hyprland/
-    ├── hyprland-keys/
-    ├── lazydocker/
-    ├── lazygit/
-    ├── mise/
-    ├── nvim/
-    ├── uv/
-    └── waybar/
+├── bootstrap.sh          # Entry point
+├── scripts/
+│   ├── config/           # Configuration files (packages, repos)
+│   ├── lib/              # Shared logic (installers, helpers)
+│   ├── install-packages.sh
+│   ├── setup-repos.sh
+│   └── ...
+├── stow/                 # Dotfiles (managed by GNU Stow)
+│   ├── hyprland/
+│   ├── waybar/
+│   └── ...
+└── tests/                # Validation and unit tests
 ```
 
-## Key Bindings
+## 🛡 Testing & Validation
 
-- `Super + Space`: Application launcher (tofi)
-- `Super + Return`: Terminal (ghostty)
-- `Super + K`: Show keybinds
-- `Super + V`: Clipboard menu
-- `Super + G`: LazyGit
-- `Super + D`: LazyDocker
-- `Super + N`: Neovim
-- `Super + P`: Python project setup
-- `Super + 1-9`: Switch workspaces
-- `Super + Shift + 1-9`: Move window to workspace
-
-## Customization
-
-Edit config files in the `stow/` directories, then re-stow:
-
+Before applying changes, you can validate the configuration:
 ```bash
-stow -v -d stow -t ~ <directory-name>
+./validate-configs.sh
 ```
 
-## Troubleshooting
+To test the installation logic without changing your system:
+```bash
+DRY_RUN=1 ./scripts/install-packages.sh
+```
 
-### Stow Conflicts
+## ⌨ Key Bindings (Cheat Sheet)
 
-If you get "conflicts" errors when stowing:
-1. The scripts now automatically unstow before re-stowing
-2. Broken symlinks are automatically cleaned up
-3. If conflicts persist, manually backup and remove conflicting files:
-   ```bash
-   # Backup existing config
-   mv ~/.config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf.backup
-   # Then re-stow
-   stow -d stow -t ~ hyprland
-   ```
+| Key | Action |
+| :--- | :--- |
+| `Super + Space` | App Launcher (Tofi) |
+| `Super + Return` | Terminal (Ghostty) |
+| `Super + Q` | Close Window |
+| `Super + F` | Fullscreen |
+| `Super + G` | Lazygit |
+| `Super + D` | Lazydocker |
+| `Super + K` | Show Keybinds |
+| `Super + Shift + S` | Screenshot (Area) |
 
-### Broken Config Directory
+## 🤝 Contributing
 
-If you can't open terminal or get "broken config dir":
-1. **Access TTY**: Press `Ctrl+Alt+F2` to get a text console
-2. **Clean up broken symlinks**:
-   ```bash
-   find ~/.config -type l ! -exec test -e {} \; -delete
-   find ~/.local/bin -type l ! -exec test -e {} \; -delete
-   ```
-3. **Re-stow from repo**:
-   ```bash
-   cd ~/fedorarch
-   ./update.sh
-   ```
+1.  Fork the repository.
+2.  Create a feature branch.
+3.  Run `./validate-configs.sh` before committing.
+4.  Submit a Pull Request.
 
-### Other Issues
-
-- Check logs: `journalctl --user -u cliphist.service`
-- Verify Hyprland config: `hyprctl reload` will show errors if any
-- Validate configs: Run `bash validate-configs.sh` before stowing
-
+---
+*Built with ❤️ for Fedora Users.*
