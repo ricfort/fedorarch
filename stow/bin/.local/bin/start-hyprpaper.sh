@@ -1,15 +1,19 @@
-#!/bin/bash
-# Wrapper script to start hyprpaper with expanded paths
-# This allows using ~ in the config file
+#!/usr/bin/env bash
+# Start hyprpaper and set wallpapers via hyprctl
 
-CONFIG_FILE="$HOME/.config/hyprpaper/hyprpaper.conf"
-TEMP_CONFIG=$(mktemp)
+# Kill any existing instance
+killall hyprpaper 2>/dev/null
 
-# Expand ~ and $HOME in the config file
-sed "s|~/|$HOME/|g; s|\$HOME|$HOME|g" "$CONFIG_FILE" > "$TEMP_CONFIG"
+# Start hyprpaper in background
+hyprpaper &
 
-# Start hyprpaper with the expanded config
-hyprpaper -c "$TEMP_CONFIG"
+# Wait for socket to be ready
+sleep 2
 
-# Cleanup on exit
-trap "rm -f $TEMP_CONFIG" EXIT
+# Preload wallpaper
+hyprctl hyprpaper preload /home/ricfort/Pictures/samurailotus.png
+
+# Set wallpaper for all monitors
+hyprctl hyprpaper wallpaper "eDP-1,/home/ricfort/Pictures/samurailotus.png"
+hyprctl hyprpaper wallpaper "DP-3,/home/ricfort/Pictures/samurailotus.png"
+hyprctl hyprpaper wallpaper "HDMI-A-1,/home/ricfort/Pictures/samurailotus.png"

@@ -1,0 +1,22 @@
+/* Waybar Theme - Default */
+
+* {
+    border: none;
+    font-family: "Cascadia Code", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(26, 22, 18, 0.9);
+    color: #d4c4b0;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+/* Add other styles from existing style.css later if needed */
+/* For now, we assume the main style.css imports this */
+
+
+
+

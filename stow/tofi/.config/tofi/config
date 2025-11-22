@@ -1,47 +1,16 @@
-# Tofi Configuration - Japanese Paper Theme
-# Modern, fancy launcher with aged paper aesthetic
+# Tofi Configuration
+include = theme
 
-# Window dimensions (percentage-based for responsiveness)
-# Thin and vertical - more height than width
+# Core settings
 width = 15%
 height = 40%
-
-# Positioning (centered)
 anchor = center
-
-# Font settings
 font = "CaskaydiaCove Nerd Font"
 font-size = 15
-font-weight = normal
-
-# Padding and spacing
 padding-top = 60
 padding-left = 60
 padding-right = 60
 padding-bottom = 60
 result-spacing = 16
-
-# Appearance - Japanese Paper Theme (semi-transparent)
-# Using alpha channel: 1a1612 = base color, e6 = ~90% opacity (less transparent)
-background-color = "#1a1612e6"
-text-color = "#d4c4b0"
-prompt-text = "󰍉 "
-prompt-color = "#d4a574"
-selection-color = "#1a1612"
-selection-background = "#d4a574"
-selection-padding = 10
-
-# Borders and outlines
-border-width = 2
-outline-width = 2
-border-color = "#d4a574"
-outline-color = "#5c4a3a"
-
-# Results display
 num-results = 10
-
-# Behavior
-hide-cursor = false
-
-# Terminal for running commands
 terminal = "ghostty"

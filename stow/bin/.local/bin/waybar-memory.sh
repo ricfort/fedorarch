@@ -21,3 +21,7 @@ done
 
 echo "󰍛 ${BAR} ${MEMORY_INT}%"
 
+
+
+
+

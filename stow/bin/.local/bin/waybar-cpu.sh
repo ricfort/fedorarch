@@ -21,3 +21,7 @@ done
 
 echo "󰻠 ${BAR} ${CPU_INT}%"
 
+
+
+
+

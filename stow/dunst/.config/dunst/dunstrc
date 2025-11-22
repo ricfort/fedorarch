@@ -1,85 +1,74 @@
+# Dunst Config
 [global]
-    # Japanese Paper Theme colors
-    frame_color = "#d4a574"
-    separator_color = "#5c4a3a"
-    
-    # Font - use CaskaydiaCove Nerd Font (same as system)
-    font = "CaskaydiaCove Nerd Font 11"
-    
-    # Allow markup and emoji
-    markup = yes
-    
-    # Format with emoji support
-    format = "<b>%s</b>\n%b"
-    
-    # Sort notifications
-    sort = yes
-    indicate_hidden = yes
-    
-    # Alignment
-    alignment = left
-    vertical_alignment = center
-    
-    # Show age of message if there are duplicates
-    show_age_threshold = 60
-    
-    # Word wrap
-    word_wrap = yes
-    ignore_newline = no
-    
-    # Geometry
+    monitor = 0
+    follow = mouse
     width = 300
-    height = 200
+    height = 300
     origin = top-right
-    offset = 30x20
-    shrink = no
+    offset = 20x20
+    scale = 0
+    notification_limit = 5
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+    indicate_hidden = yes
     transparency = 0
+    separator_height = 2
     padding = 8
     horizontal_padding = 8
-    text_icon_padding = 8
-    
-    # Icons
-    icon_position = left
-    max_icon_size = 32
-    icon_path = "/usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/"
-    
-    # Sticky
-    sticky_history = yes
-    history_length = 20
-    
-    # Idle timeout - notifications will disappear after this time (in seconds)
-    idle_threshold = 10
-    
-    # Show indicators of URLs
-    show_indicators = yes
-    
-    # Notification stacking
+    text_icon_padding = 0
+    frame_width = 3
+    gap_size = 0
+    separator_color = frame
+    sort = yes
+    font = Cascadia Code 11
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = no
     stack_duplicates = true
     hide_duplicate_count = false
-    
-    # Mouse actions
+    show_indicators = yes
+    icon_position = left
+    min_icon_size = 0
+    max_icon_size = 32
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    sticky_history = yes
+    history_length = 20
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = /usr/bin/xdg-open
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    corner_radius = 6
+    ignore_dbusclose = false
+    force_xwayland = false
+    force_xinerama = false
     mouse_left_click = close_current
-    mouse_middle_click = do_action
+    mouse_middle_click = do_action, close_current
     mouse_right_click = close_all
+    
+    # Theme colors
+    frame_color = "#d8a657"
 
 [urgency_low]
-    # Japanese Paper Theme - Low urgency (warm gold accent)
     background = "#1a1612"
     foreground = "#d4c4b0"
-    frame_color = "#d4a574"
-    timeout = 4
+    timeout = 5
 
 [urgency_normal]
-    # Japanese Paper Theme - Normal urgency (subtle)
     background = "#1a1612"
     foreground = "#d4c4b0"
-    frame_color = "#5c4a3a"
-    timeout = 4
+    timeout = 10
 
 [urgency_critical]
-    # Japanese Paper Theme - Critical urgency (warm red/orange)
     background = "#1a1612"
-    foreground = "#c49460"
-    frame_color = "#c49460"
-    timeout = 6
-
+    foreground = "#ea6962"
+    frame_color = "#ea6962"
+    timeout = 0

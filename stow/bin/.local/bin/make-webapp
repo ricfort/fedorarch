@@ -154,7 +154,7 @@ cat > "$DESKTOP_FILE" << EOF
 Version=1.0
 Name=$NAME
 Comment=Web application: $URL
-Exec=$HOME/.local/bin/chromium-launcher.sh --profile=$PROFILE --app=$URL --class=$CLASS
+Exec=chromium-browser --profile-directory=$PROFILE --app=$URL --class=$CLASS
 Icon=$HOME/.local/share/icons/webapps/${CLASS}.png
 Type=Application
 Categories=Network;WebApp;

@@ -31,3 +31,6 @@ else
     log_warn "Hyprland is not running, changes will apply on next login."
 fi
 
+
+
+

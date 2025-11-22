@@ -154,4 +154,10 @@ if [ -d ~/.local/bin ]; then
     chmod +x ~/.local/bin/* 2>/dev/null || true
 fi
 
+# Reload Hyprland if running
+if pgrep -x "Hyprland" >/dev/null; then
+    log_info "Reloading Hyprland..."
+    hyprctl reload >/dev/null 2>&1 && log_success "Hyprland reloaded" || log_warn "Failed to reload Hyprland"
+fi
+
 log_success "Configuration deployment complete"
