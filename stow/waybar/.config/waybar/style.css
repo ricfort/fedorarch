@@ -1,38 +1,3 @@
-/* ============================================
-   THEME VARIABLES - Japanese Paper Theme
-   Change these values to easily swap themes
-   ============================================ */
-/* Background colors */
-/* --bg-primary: rgba(26, 22, 18, 0.95); */
-/* --bg-secondary: transparent; */
-
-/* Text colors */
-/* --text-primary: #d4c4b0; */
-/* --text-accent: #d4a574; */
-/* --text-urgent: #c49460; */
-/* --text-hover: #d4a574; */
-
-/* Border colors */
-/* --border-primary: rgba(212, 165, 116, 0.2); */
-/* --border-accent: rgba(212, 165, 116, 0.15); */
-
-/* Shadow */
-/* --shadow: 0 2px 8px rgba(0, 0, 0, 0.3); */
-
-/* Spacing */
-/* --spacing-xs: 2px; */
-/* --spacing-sm: 4px; */
-/* --spacing-md: 8px; */
-/* --spacing-lg: 12px; */
-/* --spacing-xl: 14px; */
-
-/* Typography */
-/* --font-size: 13px; */
-/* --font-weight-normal: 400; */
-/* --font-weight-bold: bold; */
-/* --letter-spacing-normal: 0.5px; */
-/* --letter-spacing-accent: 1px; */
-
 * {
   font-family: "CaskaydiaCove Nerd Font";
   font-size: 13px;
@@ -63,7 +28,7 @@ window#waybar {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Removed transition - reduces CPU */
   min-width: 28px;
 }
 
@@ -89,22 +54,10 @@ window#waybar {
   color: #c49460;
   border: 1.5px solid rgba(196, 148, 96, 0.6);
   font-weight: 700;
-  animation: urgentPulse 2s ease-in-out infinite;
+  /* Animation disabled for performance */
 }
 
-@keyframes urgentPulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Modules - Rounded buttons with better spacing */
+/* Modules - Rounded buttons */
 #clock,
 #cpu,
 #memory,
@@ -112,18 +65,14 @@ window#waybar {
 #network,
 #pulseaudio,
 #battery,
-#tray,
-#custom-media,
-#custom-cpu,
-#custom-memory,
-#custom-battery {
+#tray {
   padding: 4px 16px;
   margin: 4px 4px;
   border-radius: 16px;
   background: rgba(26, 22, 18, 0.85);
   border: 1.5px solid rgba(212, 165, 116, 0.25);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Removed transition for performance */
   color: #e8dcc8;
   font-weight: 600;
   font-size: 13px;
@@ -136,64 +85,14 @@ window#waybar {
   padding: 4px 18px;
 }
 
-/* Make icons more prominent with larger font size */
 #cpu,
 #memory,
 #temperature,
 #network,
 #pulseaudio,
-#battery,
-#custom-cpu,
-#custom-memory,
-#custom-battery {
+#battery {
   font-size: 14px;
   letter-spacing: 1px;
-}
-
-/* Module hover effects */
-#cpu:hover,
-#memory:hover,
-#temperature:hover,
-#network:hover,
-#pulseaudio:hover,
-#battery:hover,
-#clock:hover,
-#custom-media:hover,
-#custom-cpu:hover,
-#custom-memory:hover,
-#custom-battery:hover {
-  background: rgba(26, 22, 18, 0.95);
-  color: #d4a574;
-  border-color: rgba(212, 165, 116, 0.45);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
-}
-
-/* Music player - animated */
-#custom-media {
-  background: rgba(212, 165, 116, 0.15);
-  border-color: rgba(212, 165, 116, 0.3);
-  color: #e8dcc8;
-  font-weight: 500;
-}
-
-#custom-media.playing {
-  background: rgba(212, 165, 116, 0.25);
-  border-color: rgba(212, 165, 116, 0.5);
-  color: #d4a574;
-  animation: musicPulse 1.5s ease-in-out infinite;
-  box-shadow: 0 2px 8px rgba(212, 165, 116, 0.3);
-}
-
-@keyframes musicPulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.85;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 /* Tray styling */
@@ -205,7 +104,7 @@ window#waybar {
   padding: 0 5px;
 }
 
-/* Critical states */
+/* Critical states - no animations */
 #battery.critical:not(.charging) {
   background: rgba(196, 148, 96, 0.3);
   color: #c49460;

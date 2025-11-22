@@ -4,7 +4,7 @@
   "height": 38,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/cpu", "custom/memory", "temperature", "network", "pulseaudio", "custom/battery", "tray", "custom/media"],
+  "modules-right": ["cpu", "memory", "temperature", "network", "pulseaudio", "battery", "tray"],
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
@@ -23,25 +23,25 @@
   },
   "clock": {
     "format": "{:%H:%M %a %b %d}",
-    "tooltip-format": "{:%A %B %d %Y}"
+    "tooltip-format": "{:%A %B %d %Y}",
+    "interval": 60
   },
-  "custom/cpu": {
-    "format": "{}",
-    "exec": "~/.local/bin/waybar-cpu.sh",
-    "interval": 2,
+  "cpu": {
+    "format": "{usage}% ",
+    "interval": 5,
     "tooltip": false
   },
-  "custom/memory": {
-    "format": "{}",
-    "exec": "~/.local/bin/waybar-memory.sh",
-    "interval": 2,
+  "memory": {
+    "format": "{percentage}% ",
+    "interval": 10,
     "tooltip": false
   },
   "temperature": {
     "critical-threshold": 80,
     "format": "{temperatureC}°C 󰈸",
     "format-icons": ["󰈸", "󰈸", "󰈸"],
-    "tooltip": false
+    "tooltip": false,
+    "interval": 10
   },
   "network": {
     "format-wifi": "{signalStrength}% 󰤨",
@@ -49,41 +49,33 @@
     "format-linked": "󰈀 {ifname}",
     "format-disconnected": "󰤭",
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "tooltip-format": "{essid} - {signalStrength}%"
+    "tooltip-format": "{essid} - {signalStrength}%",
+    "interval": 10
   },
   "pulseaudio": {
     "format": "{volume}% {icon}",
-    "format-muted": "󰝟 Muted",
+    "format-muted": "󰝟",
     "format-source": "{volume}% 󰍬",
     "format-source-muted": "󰍭",
     "format-icons": {
-      "0": "󰕿",
-      "50": "󰖀",
-      "100": "󰕾"
+      "default": ["󰕿", "󰖀", "󰕾"]
     },
     "on-click": "pavucontrol"
   },
-  "custom/battery": {
-    "format": "{}",
-    "exec": "~/.local/bin/waybar-battery.sh",
-    "interval": 5,
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-charging": "{capacity}% 󰂄",
+    "format-plugged": "{capacity}% ",
+    "format-icons": ["", "", "", "", ""],
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "interval": 30,
     "tooltip": false
   },
   "tray": {
     "icon-size": 18,
     "spacing": 12
-  },
-  "custom/media": {
-    "format": "{}",
-    "return-type": "json",
-    "max-length": 50,
-    "exec": "~/.local/bin/waybar-music.sh",
-    "interval": 1,
-    "on-click": "playerctl play-pause",
-    "on-click-right": "playerctl next",
-    "on-click-middle": "playerctl previous",
-    "on-scroll-up": "playerctl volume 0.05+",
-    "on-scroll-down": "playerctl volume 0.05-",
-    "tooltip": true
   }
 }

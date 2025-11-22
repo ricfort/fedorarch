@@ -48,7 +48,7 @@ export PATH="$HOME/.local/bin:$PATH"
 install_mise
 install_uv
 
-# Spotify
+# Spotify (Flatpak)
 log_info "Installing Spotify..."
 install_flatpak "flathub" "com.spotify.Client"
 
