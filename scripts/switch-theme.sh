@@ -106,16 +106,3 @@ fi
 
 log_success "Theme switch complete!"
 
-
-
-
-
-
-
-
-
-
-
-
-
-

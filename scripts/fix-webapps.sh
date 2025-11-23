@@ -42,15 +42,3 @@ update-desktop-database ~/.local/share/applications/ 2>/dev/null || true
 
 echo "Webapps updated successfully."
 
-
-
-
-
-
-
-
-
-
-
-
-

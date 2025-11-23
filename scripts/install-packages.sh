@@ -138,3 +138,4 @@ if [ -f ~/.bashrc ] && ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.bashr
 fi
 
 log_success "Package installation complete"
+

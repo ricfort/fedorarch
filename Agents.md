@@ -1,0 +1,18 @@
+- This repo contains a fully idempotent configuration for my Fedora Workstation.
+- It is designed to be easy to understand and modify.
+- It is designed to be easy to deploy.
+- It is designed to be easy to update.
+- It is designed to be easy to backup.
+- It is designed to be easy to restore.
+- It is designed to be easy to migrate.
+- It is designed to be easy to troubleshoot.
+- It is designed to be easy to improve.
+- It is designed to be easy to contribute.
+- It is designed to be easy to share.
+- It is designed to be easy to use.
+- It is designed to be idempotent.
+- It is designed to be fully deployable in one command.
+- It is designed to be code only, no manual steps (except for chromium profile and theme)
+- It is designed to be aesthetic and to follow the japanese samurai theme
+- You don't need to do git commands, the user can handle himself.
+- Use https://github.com/basecamp/omarchy.git as inspiration.

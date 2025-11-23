@@ -37,3 +37,4 @@ log_info "Refreshing package cache..."
 sudo dnf update --refresh -y
 
 log_success "Repository setup complete"
+

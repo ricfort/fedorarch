@@ -161,3 +161,4 @@ if pgrep -x "Hyprland" >/dev/null; then
 fi
 
 log_success "Configuration deployment complete"
+

@@ -101,3 +101,4 @@ if check_command fprintd-enroll; then
 fi
 
 log_success "Post-installation setup complete"
+
