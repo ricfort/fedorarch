@@ -31,8 +31,13 @@ install_dnf_opts() {
 
     if [ ${#to_install[@]} -gt 0 ]; then
         log_info "Installing packages: ${to_install[*]}"
-        # We use eval/expansion carefully here, but opts is trusted from our scripts
-        run_sudo dnf install -y $opts "${to_install[@]}"
+        # Safely pass opts using array to avoid shell expansion risks
+        if [ -n "$opts" ]; then
+            # shellcheck disable=SC2086
+            run_sudo dnf install -y $opts "${to_install[@]}"
+        else
+            run_sudo dnf install -y "${to_install[@]}"
+        fi
     fi
 }
 

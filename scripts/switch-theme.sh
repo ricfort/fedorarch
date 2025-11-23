@@ -9,17 +9,34 @@ source "$SCRIPT_DIR/lib/common.sh"
 if [ $# -lt 1 ]; then
     echo "Usage: $0 <theme_name>"
     echo "Available themes:"
-    ls -1 "$SCRIPT_DIR/../themes"
+    ls -1 "$SCRIPT_DIR/../themes" 2>/dev/null || echo "  (none found)"
     exit 1
 fi
 
 THEME_NAME="$1"
+
+# Sanitize theme name to prevent directory traversal
+if [[ "$THEME_NAME" =~ [./] ]] || [[ "$THEME_NAME" =~ ^- ]]; then
+    log_error "Invalid theme name. Theme name cannot contain slashes, dots, or start with dash."
+    exit 1
+fi
+
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 THEMES_DIR="$REPO_ROOT/themes"
 THEME_PATH="$THEMES_DIR/$THEME_NAME"
 
+# Verify theme path is within themes directory (security check)
+REAL_THEME_PATH=$(realpath -m "$THEME_PATH")
+REAL_THEMES_DIR=$(realpath "$THEMES_DIR")
+if [[ "$REAL_THEME_PATH" != "$REAL_THEMES_DIR"/* ]]; then
+    log_error "Invalid theme path"
+    exit 1
+fi
+
 if [ ! -d "$THEME_PATH" ]; then
     log_error "Theme '$THEME_NAME' not found in $THEMES_DIR"
+    echo "Available themes:"
+    ls -1 "$THEMES_DIR" 2>/dev/null || echo "  (none found)"
     exit 1
 fi
 

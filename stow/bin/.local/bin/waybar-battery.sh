@@ -70,7 +70,3 @@ echo "${ICON} ${BAR} ${CAPACITY_INT}%"
 
 
 
-
-
-
-

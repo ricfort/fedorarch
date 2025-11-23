@@ -38,6 +38,19 @@ if [ -z "$pkg_name" ]; then
     exit 1
 fi
 
+# Sanitize package name - only allow alphanumeric, dash, underscore, and dot
+if ! [[ "$pkg_name" =~ ^[a-zA-Z0-9._+-]+$ ]]; then
+    log_error "Invalid package name. Only alphanumeric characters, dots, dashes, underscores, and plus signs are allowed."
+    exit 1
+fi
+
+# Verify package exists before attempting install
+if ! dnf info "$pkg_name" >/dev/null 2>&1; then
+    log_error "Package '$pkg_name' not found in repositories"
+    log_info "Try: dnf search $pkg_name"
+    exit 1
+fi
+
 # Install first to verify
 log_info "Attempting to install $pkg_name..."
 if sudo dnf install -y "$pkg_name"; then
@@ -71,4 +84,5 @@ else
     log_error "Failed to install package. Not adding to config."
     exit 1
 fi
+
 

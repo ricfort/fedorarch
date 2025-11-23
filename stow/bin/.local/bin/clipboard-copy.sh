@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # Unified clipboard copy - copies selected text to clipboard
 # Works with terminals (primary selection) and GUI apps (Ctrl+C)
 

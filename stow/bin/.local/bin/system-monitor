@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+
 # System performance monitoring script
 
 echo "=== System Performance Monitor ==="
@@ -59,9 +61,5 @@ echo "=== Performance Tips ==="
 echo "- Waybar CPU: $(ps aux | grep [w]aybar | awk '{print $3}')%"
 echo "- Hyprland CPU: $(ps aux | grep [H]yprland | awk '{print $3}')%"
 echo ""
-
-
-
-
 
 

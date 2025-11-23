@@ -12,16 +12,30 @@ echo "Installing Japanese Paper Theme for Chromium..."
 # Create theme directory
 mkdir -p "$THEME_DIR"
 
-# Check if we have the manifest in our stow directory
-STOW_MANIFEST="$HOME/fedorarch/stow/chromium/.config/chromium/Default/Extensions/japanese-paper-theme/manifest.json"
-if [ -f "$STOW_MANIFEST" ]; then
-    cp "$STOW_MANIFEST" "$MANIFEST_FILE"
-    echo "Theme manifest copied from stow directory"
-elif [ -f "./stow/chromium/.config/chromium/Default/Extensions/japanese-paper-theme/manifest.json" ]; then
+# Try to find the manifest in common locations
+FOUND=false
+
+# Try in user's home directory (common installation location)
+for dir in "$HOME"/*; do
+    STOW_MANIFEST="$dir/stow/chromium/.config/chromium/Default/Extensions/japanese-paper-theme/manifest.json"
+    if [ -f "$STOW_MANIFEST" ]; then
+        cp "$STOW_MANIFEST" "$MANIFEST_FILE"
+        echo "Theme manifest copied from $dir"
+        FOUND=true
+        break
+    fi
+done
+
+# Try relative paths
+if [ "$FOUND" = false ] && [ -f "./stow/chromium/.config/chromium/Default/Extensions/japanese-paper-theme/manifest.json" ]; then
     cp "./stow/chromium/.config/chromium/Default/Extensions/japanese-paper-theme/manifest.json" "$MANIFEST_FILE"
     echo "Theme manifest copied from local stow directory"
-else
+    FOUND=true
+fi
+
+if [ "$FOUND" = false ]; then
     echo "Error: Theme manifest not found. Please ensure the stow directory is set up correctly."
+    echo "Searched in: $HOME/*/stow/chromium/"
     exit 1
 fi
 

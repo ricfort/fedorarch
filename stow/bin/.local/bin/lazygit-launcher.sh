@@ -37,7 +37,7 @@ if [ -n "$ACTIVE_PID" ] && [ "$ACTIVE_PID" != "null" ] && [ "$ACTIVE_PID" != "0"
 fi
 
 # Fallback: try common git repository locations
-for dir in "$HOME/fedorarch" "$HOME" "$HOME/projects" "$HOME/code"; do
+for dir in "$HOME" "$HOME/projects" "$HOME/code" "$HOME/dev" "$HOME/workspace"; do
     if [ -d "$dir" ]; then
         GIT_REPO=$(find_git_repo "$dir")
         if [ -n "$GIT_REPO" ]; then

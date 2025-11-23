@@ -1,0 +1,47 @@
+# Backup files
+*.backup-*
+.config.backup-*
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Editor directories
+.vscode/
+.idea/
+*.code-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+dist/
+build/
+
+# Local testing
+test-*.sh
+.local-test/
+
+# User-specific files (these should not be committed)
+stow/hyprland/.config/hypr/monitors.conf
+stow/hyprland/.config/hypr/user.conf
+
+# Screenshots (already in screenshots/ but prevent accidental adds)
+screenshot-*.png
+recording-*.mp4
+

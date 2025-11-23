@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Don't use set -euo pipefail - we want to catch errors and notify
-set +e
-set -u
+set -euo pipefail
 
 # Interactive webapp creation
 
@@ -20,13 +18,18 @@ send_notification() {
         # Send notification in background but wait a tiny bit to ensure it's sent
         (notify-send "$title" "$message" --urgency="$urgency" --expire-time=5000 2>&1 &)
         sleep 0.1
-    else
-        echo "Warning: notify-send not found, cannot send notification"
     fi
 }
 
+# Function to handle errors
+handle_error() {
+    local exit_code=$?
+    send_notification "WebApp Creation Failed" "Script exited with error (code: $exit_code)\nCheck terminal for details" "critical"
+    exit "$exit_code"
+}
+
 # Trap errors to send notification
-trap 'send_notification "WebApp Creation Failed" "Script exited with error\nCheck terminal for details" "critical"; exit 1' ERR
+trap 'handle_error' ERR
 if [ $# -eq 0 ]; then
     echo "=== Create WebApp ==="
     echo ""
@@ -141,8 +144,14 @@ mkdir -p "$WEBAPPS_ICONS_DIR"
 ICON_FILE=""
 if [ -n "$ICON_URL" ]; then
     ICON_FILE="$WEBAPPS_ICONS_DIR/${CLASS}.png"
-    if ! curl -sL "$ICON_URL" -o "$ICON_FILE"; then
-        echo "Warning: Failed to download icon, continuing without icon"
+    # Validate URL format before downloading
+    if [[ "$ICON_URL" =~ ^https?:// ]]; then
+        if ! curl -sL --max-time 10 "$ICON_URL" -o "$ICON_FILE"; then
+            echo "Warning: Failed to download icon, continuing without icon"
+            ICON_FILE=""
+        fi
+    else
+        echo "Warning: Invalid icon URL format (must be http:// or https://), skipping icon"
         ICON_FILE=""
     fi
 fi
