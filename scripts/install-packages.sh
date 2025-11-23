@@ -72,8 +72,8 @@ if check_command mise; then
         echo 'eval "$(mise activate bash)"' >> ~/.bashrc
     fi
     # Install default languages
-    mise install python@latest nodejs@latest 2>/dev/null || true
-    mise use python@latest nodejs@latest 2>/dev/null || true
+    mise install python@latest nodejs@latest go@latest 2>/dev/null || true
+    mise use python@latest nodejs@latest go@latest 2>/dev/null || true
 fi
 
 # Install Gemini CLI via npm (if node is available)
@@ -93,6 +93,16 @@ if check_command npm; then
     else
         log_success "Gemini CLI already installed"
     fi
+
+    if check_command gemini; then
+        log_info "Installing gemini extensions..."
+        gemini extensions install https://github.com/googleapis/genai-toolbox || log_warn "Failed to install genai-toolbox"
+        gemini extensions install https://github.com/github/github-mcp-server || log_warn "Failed to install github-mcp-server"
+        gemini extensions install https://github.com/abagames/slash-criticalthink || log_warn "Failed to install slash-criticalthink"
+    else
+        log_warn "gemini not found, skipping gemini extensions installation"
+    fi
+
 else
     log_warn "npm not found, skipping Gemini CLI installation"
 fi
