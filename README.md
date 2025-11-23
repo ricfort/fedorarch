@@ -2,6 +2,20 @@
 
 **Fedorarch** is a modular, Omarchy-style configuration framework for **Fedora Linux**. It provides a polished, keyboard-centric Wayland environment powered by **Hyprland**, with a focus on maintainability, modularity, and ease of use.
 
+## 📸 Screenshots
+
+![Desktop Overview](screenshots/screenshot-area-20251123-095117.png)
+*Main desktop with Hyprland, Waybar, and wallpaper*
+
+![Application Launcher](screenshots/screenshot-area-20251123-095202.png)
+*Tofi application launcher (Super+Space)*
+
+![Development Tools](screenshots/screenshot-area-20251123-095217.png)
+*Ghostty terminal with development environment*
+
+![System Overview](screenshots/screenshot-area-20251123-095642.png)
+*Multi-monitor workspace setup*
+
 ## 🚀 Features
 
 *   **Window Manager:** Hyprland (Wayland) with a "dwindle" layout.

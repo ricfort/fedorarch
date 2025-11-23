@@ -76,6 +76,27 @@ if check_command mise; then
     mise use python@latest nodejs@latest 2>/dev/null || true
 fi
 
+# Install Gemini CLI via npm (if node is available)
+if check_command npm; then
+    log_info "Installing Gemini CLI..."
+    if ! check_command gemini; then
+        # Install directly to ~/.local to avoid permission issues without changing global config
+        # This puts the binary in ~/.local/bin which is already in PATH
+        mkdir -p "$HOME/.local"
+        if npm install -g --prefix "$HOME/.local" @google/gemini-cli; then
+            log_success "Gemini CLI installed to ~/.local/bin"
+        else
+            log_warn "Failed to install Gemini CLI to ~/.local"
+            log_info "Attempting global install with sudo..."
+            sudo npm install -g @google/gemini-cli || log_warn "Failed to install Gemini CLI"
+        fi
+    else
+        log_success "Gemini CLI already installed"
+    fi
+else
+    log_warn "npm not found, skipping Gemini CLI installation"
+fi
+
 if check_command uv; then
     uv tool install ruff 2>/dev/null || true
     uv tool install black 2>/dev/null || true

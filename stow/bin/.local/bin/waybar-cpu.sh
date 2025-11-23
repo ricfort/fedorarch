@@ -33,3 +33,4 @@ echo "󰻠 ${BAR} ${CPU_INT}%"
 
 
 
+

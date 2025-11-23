@@ -61,3 +61,4 @@ echo "- Hyprland CPU: $(ps aux | grep [H]yprland | awk '{print $3}')%"
 echo ""
 
 
+

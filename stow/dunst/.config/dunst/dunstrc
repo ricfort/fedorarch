@@ -1,7 +1,7 @@
 # Dunst Config
 [global]
-    monitor = 0
-    follow = mouse
+    monitor = 2
+    follow = keyboard
     width = 300
     height = 300
     origin = top-right
