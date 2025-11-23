@@ -137,3 +137,47 @@ install_uv() {
     fi
 }
 
+# Install AppImage
+# Usage: install_appimage <name> <github_repo> <appimage_name_pattern> [install_path]
+# Example: install_appimage "logseq" "logseq/logseq" "Logseq-linux-x64.*AppImage" "$HOME/.local/bin/logseq"
+install_appimage() {
+    local name="$1"
+    local github_repo="$2"
+    local appimage_pattern="$3"
+    local install_path="${4:-$HOME/.local/bin/$name}"
+    local install_dir=$(dirname "$install_path")
+    
+    if [ -f "$install_path" ] && [ -x "$install_path" ]; then
+        log_info "$name already installed at $install_path"
+        return 0
+    fi
+    
+    log_info "Installing $name AppImage..."
+    
+    # Get latest release URL - convert pattern to regex for grep
+    # Replace * with .* for regex matching
+    local regex_pattern=$(echo "$appimage_pattern" | sed 's/\*/.*/g')
+    local latest_url=$(curl -s "https://api.github.com/repos/$github_repo/releases/latest" | \
+        grep "browser_download_url" | \
+        grep -i "$regex_pattern" | \
+        sed 's/.*"browser_download_url": *"\([^"]*\)".*/\1/' | \
+        head -n 1)
+    
+    if [ -z "$latest_url" ]; then
+        log_error "Could not find $name AppImage download URL"
+        log_info "Searched for pattern: $appimage_pattern (regex: $regex_pattern)"
+        log_info "Available downloads:"
+        curl -s "https://api.github.com/repos/$github_repo/releases/latest" | \
+            grep "browser_download_url" | \
+            sed 's/.*"browser_download_url": *"\([^"]*\)".*/\1/' | head -5
+        return 1
+    fi
+    
+    log_info "Downloading from $latest_url..."
+    run_cmd mkdir -p "$install_dir"
+    run_cmd curl -L -o "$install_path" "$latest_url"
+    run_cmd chmod +x "$install_path"
+    
+    log_success "$name installed to $install_path"
+}
+

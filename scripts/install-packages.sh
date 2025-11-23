@@ -52,6 +52,10 @@ install_uv
 log_info "Installing Spotify..."
 install_flatpak "flathub" "com.spotify.Client"
 
+# Logseq (Flatpak)
+log_info "Installing Logseq..."
+install_flatpak "flathub" "com.logseq.Logseq"
+
 # Bluetuith
 BLUETUITH_VER="v0.1.8"
 BLUETUITH_URL="https://github.com/bluetuith-org/bluetuith/releases/download/${BLUETUITH_VER}/bluetuith_${BLUETUITH_VER#v}_Linux_x86_64.tar.gz"
@@ -62,6 +66,7 @@ HYPRMON_VER="v0.0.12"
 HYPRMON_URL="https://github.com/erans/hyprmon/releases/download/${HYPRMON_VER}/hyprmon-linux-amd64.tar.gz"
 # Binary in archive is hyprmon-linux-amd64, we want hyprmon
 install_from_url "hyprmon" "$HYPRMON_URL" "hyprmon" "$HOME/.local/bin" "hyprmon-linux-amd64"
+
 
 # 5. Setup Shell Integration
 log_info "Setting up shell integration..."
@@ -138,4 +143,3 @@ if [ -f ~/.bashrc ] && ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.bashr
 fi
 
 log_success "Package installation complete"
-
