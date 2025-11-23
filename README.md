@@ -140,6 +140,12 @@ DRY_RUN=1 ./scripts/install-packages.sh
 | `Super + K` | Show Keybinds |
 | `Super + Shift + S` | Screenshot (Area) |
 
+
+## Disclaimer on Chromium
+I tried to profile and theme Chromium in a programmatic way, however looks like it tends to conflict and to not start properly.
+I do not have time to fork it like the folks behind Omarchy did, so I would advice creating profile and theme from the UI, then binding it to the keys.
+
+
 ## 🤝 Contributing
 
 1.  Fork the repository.

@@ -9,10 +9,12 @@ export COPR_REPOS=(
     "leloubil/wl-clip-persist"
     "aquacash5/nerd-fonts"
     "scottames/ghostty"
+    "atim/starship"
 )
 
 # RPM Fusion (handled by logic, but could be flagged here if we make the installer generic enough)
 # keeping it simple for now as arrays.
+
 
 
 

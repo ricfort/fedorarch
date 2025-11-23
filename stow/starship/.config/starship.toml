@@ -1,0 +1,29 @@
+# Starship configuration
+# https://starship.rs/config/
+
+# Disable the newline at the start of the prompt
+add_newline = false
+
+# Use custom format
+format = """$directory$git_branch$git_status$fill$cmd_duration$line_break$character"""
+
+[directory]
+style = "blue"
+
+[git_branch]
+symbol = " "
+style = "bold green"
+
+[git_status]
+style = "bold red"
+
+[fill]
+symbol = " "
+
+[cmd_duration]
+min_time = 1000
+format = "took [$duration](bold yellow)"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

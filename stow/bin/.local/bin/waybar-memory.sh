@@ -34,3 +34,4 @@ echo "󰍛 ${BAR} ${MEMORY_INT}%"
 
 
 
+

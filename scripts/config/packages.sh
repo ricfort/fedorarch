@@ -23,6 +23,7 @@ export ESSENTIAL_PACKAGES=(
     "sddm"
     "fastfetch"
     "zsh"
+    "starship"
 )
 
 # Clipboard and utilities

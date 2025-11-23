@@ -1,7 +1,27 @@
 # Fedorarch zsh setup
 
-# Enable colors
-export CLICOLOR=1
+# Add local bin to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Zsh plugin manager (zgenom)
+# https://github.com/jandamm/zgenom
+if [[ ! -f "$HOME/.zgenom/zgenom.zsh" ]]; then
+    git clone https://github.com/jandamm/zgenom.git "$HOME/.zgenom"
+fi
+source "$HOME/.zgenom/zgenom.zsh"
+
+# Load plugins if the file doesn't exist yet
+if ! zgenom saved; then
+    # Plugins
+    zgenom load zsh-users/zsh-completions
+    zgenom load zsh-users/zsh-autosuggestions
+    zgenom load zsh-users/zsh-syntax-highlighting
+
+    # Prompt
+    zgenom load starship/starship
+
+    zgenom save
+fi
 
 # History configuration
 HISTFILE=~/.zsh_history
@@ -11,20 +31,15 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 
-# Colorful prompt (Japanese Paper theme colors)
-autoload -U colors && colors
-PROMPT='%F{#d4a574}%n%f@%F{#9db5a0}%m%f:%F{#8b9db5}%~%f$ '
-
 # Aliases
 alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
 alias grep='grep --color=auto'
 
+# Initialize Starship prompt
+eval "$(starship init zsh)"
+
 # Show fastfetch on terminal open (only for interactive shells)
 if [[ -o interactive ]] && command -v fastfetch >/dev/null 2>&1; then
     fastfetch
 fi
-
-# Add local bin to PATH
-export PATH="$HOME/.local/bin:$PATH"
-
