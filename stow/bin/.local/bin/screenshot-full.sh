@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # Full screen screenshot
 
 SCREENSHOT_DIR="$HOME/Pictures/Screenshots"

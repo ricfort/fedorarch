@@ -18,15 +18,29 @@
 
 ## 🚀 Features
 
-*   **Window Manager:** Hyprland (Wayland) with a "dwindle" layout.
-*   **Terminal:** Ghostty - fast, GPU-accelerated.
-*   **Launcher:** Tofi - minimal and fast.
-*   **Bar:** Waybar - highly customizable status bar.
-*   **Notifications:** Dunst.
-*   **Shell:** Zsh with pure prompt.
-*   **Development:** Neovim, Lazygit, Lazydocker, Mise, UV.
-*   **Modular:** Logic (`scripts/lib`) is separated from configuration (`scripts/config`).
-*   **Safe:** Supports `DRY_RUN` mode and includes validation scripts.
+### Core Components
+*   **Window Manager:** Hyprland (Wayland) with "dwindle" layout
+*   **Terminal:** Ghostty - fast, GPU-accelerated with ligature support
+*   **Launcher:** Tofi - minimal Wayland-native application launcher
+*   **Bar:** Waybar - highly customizable status bar with custom widgets
+*   **Notifications:** Dunst with custom theme integration
+*   **Shell:** Zsh with Starship prompt
+
+### Development Environment
+*   **Editor:** Neovim with modern plugins
+*   **Version Control:** Lazygit for interactive Git management
+*   **Containers:** Lazydocker for Docker management
+*   **Language Management:** Mise for Python, Node.js, Go, etc.
+*   **Python Tools:** UV for fast package installation
+
+### Key Features
+*   **Modular Design:** Clean separation of logic (`scripts/lib`) and configuration (`scripts/config`)
+*   **Safe Installation:** DRY_RUN mode and validation scripts
+*   **Multi-Monitor Support:** Dynamic workspace distribution across monitors
+*   **Theme System:** Easy switching between visual themes
+*   **Web Apps:** Create standalone desktop apps from websites
+*   **Profile Management:** Separate Chromium profiles for Personal/Work
+*   **Clipboard History:** Persistent clipboard with cliphist
 
 ## 📦 Installation
 
@@ -64,38 +78,120 @@ To add a package interactively:
 ### Managing Repositories
 Edit `scripts/config/repos.sh` to manage COPR repositories.
 
-### Personal Settings
-*   **Monitors:** Run `./scripts/configure-monitors.sh` or edit `~/.config/hypr/monitors.conf`.
-*   **User Overrides:** Edit `~/.config/hypr/user.conf` for custom keybinds or rules. This file is sourced last and takes precedence.
+### Monitor Configuration
+Configure your monitors by running:
+```bash
+./scripts/configure-monitors.sh
+```
 
-### Web Apps & Profiles
-This config is optimized for a multi-profile Chromium workflow:
+Or manually edit `~/.config/hypr/monitors.conf`. Example configuration:
+```conf
+# Primary monitor (2560x1440 @ 144Hz)
+monitor=DP-1,2560x1440@144,0x0,1
 
-*   **Personal Profile:** Launch with `Super + B`.
-*   **Work Profile:** Launch with `Super + Shift + B`.
+# Secondary monitor (1920x1080 @ 60Hz)
+monitor=HDMI-A-1,1920x1080@60,2560x0,1
 
-**Creating Web Apps:**
-You can easily turn any website into a standalone desktop app (SSB) that integrates with your launcher and Hyprland rules.
+# Laptop screen
+monitor=eDP-1,1920x1200@60,0x1440,1
+```
+
+To see your connected monitors, run: `hyprctl monitors`
+
+#### Workspace Distribution
+Workspaces are automatically distributed across your monitors:
+- **1 Monitor:** All workspaces (1-10) available on single monitor
+- **2 Monitors:** Workspaces 1-5 on first monitor, 6-10 on second
+- **3+ Monitors:** Evenly distributed across all displays
+
+To reset workspace distribution after connecting/disconnecting monitors:
+```bash
+reset-workspaces.sh
+```
+
+**Workspace Navigation:**
+- `Super + [1-9]` - Switch to workspace 1-9
+- `Super + Shift + [1-9]` - Move active window to workspace
+- `Super + Mouse Wheel` - Cycle through workspaces
+
+### User Overrides
+Edit `~/.config/hypr/user.conf` for custom keybinds or rules. This file is sourced last and takes precedence over default settings.
+
+### Chromium Profiles & Web Apps
+
+#### Multi-Profile Workflow
+The configuration supports separate Chromium profiles for different contexts:
+
+*   **Personal Profile:** `Super + B` - For personal browsing, social media, entertainment
+*   **Work Profile:** `Super + Shift + B` - For work accounts, professional tools
+
+Each profile maintains separate:
+- Cookies and session data
+- Extensions
+- Bookmarks
+- History
+- Themes and settings
+
+#### Creating Web Apps (Site-Specific Browsers)
+Turn any website into a standalone desktop application:
+
 ```bash
 make-webapp
 ```
-This interactive tool will ask for:
-1.  **Name:** (e.g., "Gmail")
-2.  **URL:** (e.g., "mail.google.com")
-3.  **Icon:** (Optional URL to an icon image)
-4.  **Profile:** Choose whether it runs in your Personal or Work session.
 
-Web apps are isolated, have no window decorations (handled by Hyprland), and appear in the `Super + Space` launcher.
+The interactive wizard will prompt for:
+1.  **Name:** Display name (e.g., "Gmail", "Slack")
+2.  **URL:** Website URL (https://mail.google.com)
+3.  **Icon:** Optional icon URL for custom branding
+4.  **Profile:** Choose Personal or Work profile
+
+**Benefits:**
+- Appears in `Super + Space` launcher as native app
+- Isolated from browser tabs
+- No window decorations (clean, distraction-free)
+- Separate from main browser session
+- Custom Hyprland window rules can be applied
+
+**Examples:**
+```bash
+# Gmail for work
+make-webapp "Work Gmail" "https://mail.google.com" --profile=Work
+
+# Personal Notion
+make-webapp "Notion" "https://notion.so"
+```
+
+### Theme Management
+Switch between visual themes easily:
+```bash
+./scripts/switch-theme.sh <theme_name>
+```
+
+Themes control:
+- Hyprland colors and borders
+- Waybar styling
+- Ghostty terminal colors
+- Tofi launcher appearance
+- Dunst notification styling
+- Wallpaper
+
+Available themes are in the `themes/` directory. To create a custom theme, copy an existing theme folder and modify the files.
 
 ### Deploying Changes
-If you manually edit dotfiles in the `stow/` directory, run:
+After editing dotfiles in the `stow/` directory:
 ```bash
 ./scripts/deploy-configs.sh
 ```
-Or simply:
+
+Or pull the latest changes and redeploy:
 ```bash
 ./update.sh
 ```
+
+This will:
+1. Pull latest changes from git
+2. Restow all configuration files
+3. Reload Hyprland if running
 
 ## 📂 Project Structure
 
@@ -141,17 +237,110 @@ DRY_RUN=1 ./scripts/install-packages.sh
 | `Super + Shift + S` | Screenshot (Area) |
 
 
-## Disclaimer on Chromium
-I tried to profile and theme Chromium in a programmatic way, however looks like it tends to conflict and to not start properly.
-I do not have time to fork it like the folks behind Omarchy did, so I would advice creating profile and theme from the UI, then binding it to the keys.
+## 💡 Tips & Tricks
 
+### Performance Optimization
+- **Check System Performance:** Run `system-monitor` to see resource usage
+- **Free RAM:** Use `toggle-docker` to stop Docker containers when not needed
+- **Waybar Widgets:** CPU, memory, and battery status update every 5 seconds
+
+### Workflow Tips
+1. **Use Workspaces:** Organize by task (1=Email, 2=Code, 3=Browser, etc.)
+2. **Web Apps:** Create focused apps for frequent sites (Gmail, Slack, etc.)
+3. **Clipboard History:** `Super + Shift + V` to access recent clipboard items
+4. **Lazy*:** Use `Super + G` (Lazygit) and `Super + D` (Lazydocker) for visual management
+
+### Customization
+- **Keybinds:** Add custom binds in `~/.config/hypr/user.conf`
+- **Startup Apps:** Add to `~/.config/hypr/autostart.conf`
+- **Waybar:** Customize modules in `~/.config/waybar/config`
+- **Monitor Rules:** Per-monitor workspace assignments in `~/.config/hypr/monitors.conf`
+
+### Multi-Monitor Setup
+When connecting/disconnecting monitors:
+1. Run `hyprctl monitors` to see current setup
+2. Update `~/.config/hypr/monitors.conf` if needed
+3. Run `reset-workspaces.sh` to redistribute workspaces
+4. Reload Hyprland: `hyprctl reload`
+
+### Troubleshooting
+**Problem:** Workspaces on wrong monitor  
+**Solution:** Run `reset-workspaces.sh`
+
+**Problem:** Wallpaper not showing  
+**Solution:** Run `start-hyprpaper.sh`
+
+**Problem:** Clipboard not working  
+**Solution:** `systemctl --user restart cliphist`
+
+**Problem:** Missing commands in PATH  
+**Solution:** Log out and back in, or run `source ~/.zshrc`
+
+
+## 🔧 Advanced Usage
+
+### Dry Run Mode
+Test changes without modifying your system:
+```bash
+DRY_RUN=1 ./scripts/install-packages.sh
+```
+
+### Adding Packages
+Interactively add new packages to the configuration:
+```bash
+./scripts/add-package.sh
+```
+
+This will:
+1. Install the package to verify it exists
+2. Add it to the appropriate category in `scripts/config/packages.sh`
+3. Make it part of future installations
+
+### Custom Themes
+Create your own theme:
+```bash
+cp -r themes/Default themes/MyTheme
+# Edit files in themes/MyTheme/
+./scripts/switch-theme.sh MyTheme
+```
+
+### Backup & Restore
+Configurations are automatically backed up before deployment to:
+```
+~/.config.backup-YYYYMMDD-HHMMSS/
+```
 
 ## 🤝 Contributing
 
-1.  Fork the repository.
-2.  Create a feature branch.
-3.  Run `./validate-configs.sh` before committing.
-4.  Submit a Pull Request.
+We welcome contributions! Here's how:
+
+1.  **Fork** the repository
+2.  **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3.  **Test** your changes:
+    ```bash
+    ./validate-configs.sh
+    DRY_RUN=1 ./bootstrap.sh  # Test in VM if possible
+    ```
+4.  **Commit** with clear messages (`git commit -m 'Add amazing feature'`)
+5.  **Push** to your fork (`git push origin feature/amazing-feature`)
+6.  **Open** a Pull Request
+
+### Guidelines
+- Follow existing code style (shellcheck-compliant bash)
+- Test on a fresh Fedora install if possible
+- Update documentation for new features
+- Keep commits focused and atomic
+
+## 📄 License
+
+This project is open source. Feel free to use, modify, and distribute for non-commercial purposes.
+
+## 🙏 Acknowledgments
+
+- Inspired by [Omarchy](https://github.com/basecamp/omarchy)
+- Thanks to all COPR repository maintainers
 
 ---
-*Built with ❤️ for Fedora Users.*
+
+**Note:** This is a personal configuration shared publicly. Customize it to fit your needs!
+

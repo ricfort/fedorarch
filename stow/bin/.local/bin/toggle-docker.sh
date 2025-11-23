@@ -45,6 +45,7 @@ container_count=$(echo "$running_containers" | wc -l)
 send_notification "Docker" "Stopping $container_count container(s)..." "normal"
 
 # Stop all running containers
+# shellcheck disable=SC2086
 if docker stop $running_containers >/dev/null 2>&1; then
     send_notification "Docker" "Stopped $container_count container(s)" "normal"
 else

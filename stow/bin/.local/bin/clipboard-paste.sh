@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Universal paste (Omarchy 3.0 approach)
+set -euo pipefail
+
+# Universal paste
 # Detects terminal vs GUI apps and uses appropriate paste method
 
 # Detect if active window is a terminal

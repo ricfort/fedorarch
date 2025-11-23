@@ -2,6 +2,19 @@
 set -euo pipefail
 
 PROJECT="${1:-$(basename "$(pwd)")}"
+
+# Sanitize project name - prevent directory traversal and special characters
+if [[ "$PROJECT" =~ [/] ]] || [[ "$PROJECT" == "." ]] || [[ "$PROJECT" == ".." ]]; then
+    echo "Error: Invalid project name. Cannot contain slashes or be . or .."
+    exit 1
+fi
+
+# Only allow safe characters in project names
+if ! [[ "$PROJECT" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    echo "Error: Invalid project name. Only alphanumeric characters, underscores, and dashes are allowed."
+    exit 1
+fi
+
 mkdir -p "$PROJECT" && cd "$PROJECT"
 
 # Check if mise is available

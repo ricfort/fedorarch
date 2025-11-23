@@ -56,7 +56,7 @@ CONFIG_FILES=(
 for file in "${CONFIG_FILES[@]}"; do
     if [ -f "$file" ] && ! [ -L "$file" ]; then
         log_info "Backing up $file"
-        cp "$file" "$BACKUP_DIR/$(basename $file)" 2>/dev/null || true
+        cp "$file" "$BACKUP_DIR/$(basename "$file")" 2>/dev/null || true
     fi
 done
 

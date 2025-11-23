@@ -34,13 +34,19 @@ if [ -z "$FOCUSED_MONITOR" ]; then
     FOCUSED_MONITOR=$(hyprctl monitors -j 2>/dev/null | jq -r '.[0].name' | head -1)
 fi
 
-# If still no monitor, use default
+# If still no monitor found, record all outputs
 if [ -z "$FOCUSED_MONITOR" ]; then
-    FOCUSED_MONITOR="DP-3"
+    echo "Warning: Could not detect monitor, recording all outputs"
+    FOCUSED_MONITOR=""
 fi
 
 # Start wf-recorder in background with focused monitor
-wf-recorder -o "$FOCUSED_MONITOR" -f "$FILENAME" > "$RECORDING_STATUS_FILE" 2>&1 &
+if [ -n "$FOCUSED_MONITOR" ]; then
+    wf-recorder -o "$FOCUSED_MONITOR" -f "$FILENAME" > "$RECORDING_STATUS_FILE" 2>&1 &
+else
+    # No monitor specified, record all
+    wf-recorder -f "$FILENAME" > "$RECORDING_STATUS_FILE" 2>&1 &
+fi
 RECORDING_PID=$!
 
 # Save PID
