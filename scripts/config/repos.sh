@@ -10,6 +10,7 @@ export COPR_REPOS=(
     "aquacash5/nerd-fonts"
     "scottames/ghostty"
     "atim/starship"
+    "alternateved/eza"
 )
 
 # RPM Fusion (handled by logic, but could be flagged here if we make the installer generic enough)

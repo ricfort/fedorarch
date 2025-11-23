@@ -95,10 +95,29 @@ if check_command npm; then
     fi
 
     if check_command gemini; then
-        log_info "Installing gemini extensions..."
-        gemini extensions install https://github.com/googleapis/genai-toolbox || log_warn "Failed to install genai-toolbox"
-        gemini extensions install https://github.com/github/github-mcp-server || log_warn "Failed to install github-mcp-server"
-        gemini extensions install https://github.com/abagames/slash-criticalthink || log_warn "Failed to install slash-criticalthink"
+        log_info "Installing/updating gemini extensions..."
+
+        # Function to install a gemini extension if not already installed
+        install_gemini_extension() {
+            local extension_name=$1
+            local extension_url=$2
+            
+            # Use gemini extensions list and grep to check if the extension is installed
+            if gemini extensions list | grep -q "$extension_name"; then
+                log_success "Gemini extension '$extension_name' is already installed."
+            else
+                log_info "Installing gemini extension '$extension_name'..."
+                if gemini extensions install "$extension_url"; then
+                    log_success "Successfully installed '$extension_name'."
+                else
+                    log_warn "Failed to install gemini extension '$extension_name'."
+                fi
+            fi
+        }
+
+        install_gemini_extension "genai-toolbox" "https://github.com/googleapis/genai-toolbox"
+        install_gemini_extension "github-mcp-server" "https://github.com/github/github-mcp-server"
+        install_gemini_extension "slash-criticalthink" "https://github.com/abagames/slash-criticalthink"
     else
         log_warn "gemini not found, skipping gemini extensions installation"
     fi

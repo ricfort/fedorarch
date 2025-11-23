@@ -41,6 +41,14 @@ export UTILITY_PACKAGES=(
     "jq"
     "playerctl"
     "brightnessctl"
+    "fzf"
+    "ripgrep"
+    "fd-find"
+    "zoxide"
+    "tldr"
+    "htop"
+    "procs"
+    "eza"
 )
 
 # Development tools
@@ -57,6 +65,7 @@ export DEV_PACKAGES=(
     "make"
     "docker"
     "docker-compose"
+    "git-delta"
 )
 
 # Fonts

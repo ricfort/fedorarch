@@ -32,9 +32,13 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 
 # Aliases
-alias ls='ls --color=auto'
-alias ll='ls -lah --color=auto'
-alias grep='grep --color=auto'
+alias ls='eza --icons --git'
+alias ll='eza -lah --icons --git'
+alias grep='rg'
+alias cd='z'
+
+# Initialize zoxide
+eval "$(zoxide init zsh)"
 
 # Initialize Starship prompt
 eval "$(starship init zsh)"
