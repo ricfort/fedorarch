@@ -47,6 +47,14 @@ export PATH="$HOME/.local/bin:$PATH"
 # Mise & uv
 install_mise
 install_uv
+ 
+# Opencode
+log_info "Installing Opencode..."
+if ! check_command opencode; then
+    curl -fsSL https://opencode.ai/install | bash
+else
+    log_success "Opencode already installed"
+fi
 
 # Spotify (Flatpak)
 log_info "Installing Spotify..."

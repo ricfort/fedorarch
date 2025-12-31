@@ -47,3 +47,6 @@ eval "$(starship init zsh)"
 if [[ -o interactive ]] && command -v fastfetch >/dev/null 2>&1; then
     fastfetch
 fi
+
+# opencode
+export PATH=/home/ricfort/.opencode/bin:$PATH

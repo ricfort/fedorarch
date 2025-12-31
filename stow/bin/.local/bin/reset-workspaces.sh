@@ -53,3 +53,9 @@ done
 
 echo "Workspace distribution complete"
 
+# Refresh wallpaper to ensure it's applied to all monitors
+if [ -f "$HOME/.local/bin/refresh-hyprpaper.sh" ]; then
+    echo "Refreshing wallpaper..."
+    "$HOME/.local/bin/refresh-hyprpaper.sh" &
+fi
+
